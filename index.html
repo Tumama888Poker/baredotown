@@ -1,0 +1,795 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BAREDO TOWN</title>
+    <!-- Fuente Lobster -->
+    <link href="https://fonts.googleapis.com/css2?family=Lobster&display=swap" rel="stylesheet">
+    <!-- Font Awesome para íconos -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <!-- Estilos personalizados -->
+    <style>
+        /* Estilos generales */
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: 'Arial', sans-serif;
+            background-color: #000; /* Fondo negro */
+            color: white;
+            overflow-x: hidden;
+            cursor: none; /* Oculta el cursor predeterminado */
+        }
+
+        /* Habilitar desplazamiento suave en toda la página */
+        html {
+            scroll-behavior: smooth;
+        }
+
+        /* Barra de desplazamiento fina y casi invisible */
+        ::-webkit-scrollbar {
+            width: 6px; /* Ancho de la barra */
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background-color: rgba(255, 215, 0, 0.5); /* Color dorado semi-transparente */
+            border-radius: 3px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background-color: rgba(0, 0, 0, 0.1); /* Fondo de la pista */
+        }
+
+        /* Círculo que sigue el mouse */
+        .mouse-circle {
+            position: absolute;
+            width: 40px;
+            height: 40px;
+            border: 2px solid rgba(255, 215, 0, 0.5); /* Borde dorado semi-transparente */
+            border-radius: 50%;
+            pointer-events: none; /* Evita que el círculo interfiera con los clics */
+            transform: translate(-50%, -50%); /* Centra el círculo en el mouse */
+            transition: transform 0.1s ease-out, opacity 0.2s ease-out; /* Suaviza el movimiento */
+            opacity: 0.8; /* Transparencia */
+            z-index: 1001; /* Asegura que esté por encima del modal */
+        }
+
+        /* Encabezado */
+        header {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            background-color: rgba(0, 0, 0, 0.8); /* Fondo semi-transparente */
+            z-index: 1000;
+            padding: 10px 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            animation: fadeInDown 1s ease-out; /* Animación de entrada */
+        }
+
+        header .logo {
+            font-family: 'Lobster', cursive;
+            font-size: 2rem;
+            color: #FFD700; /* Color dorado */
+            cursor: pointer;
+            transition: transform 0.3s ease; /* Animación de hover */
+        }
+
+        header .logo:hover {
+            transform: scale(1.1); /* Efecto de escala al pasar el mouse */
+        }
+
+        header nav ul {
+            list-style: none;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: flex-end; /* Alinea el menú a la derecha */
+        }
+
+        header nav ul li {
+            margin-left: 20px;
+        }
+
+        header nav ul li a {
+            color: white;
+            text-decoration: none;
+            font-size: 1rem;
+            transition: color 0.3s ease, transform 0.3s ease; /* Animación de hover */
+        }
+
+        header nav ul li a:hover {
+            color: #FFD700; /* Color dorado al pasar el mouse */
+            transform: translateY(-3px); /* Efecto de elevación */
+        }
+
+        /* Sección hero (carrusel de imágenes) */
+        .hero {
+            height: 100vh;
+            position: relative;
+            overflow: hidden;
+            animation: fadeIn 1.5s ease-out; /* Animación de entrada */
+        }
+
+        .carousel {
+            display: flex;
+            width: 100%;
+            height: 100%;
+            position: relative;
+        }
+
+        .carousel img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            position: absolute;
+            top: 0;
+            left: 0;
+            opacity: 0;
+            transition: opacity 1s ease-in-out; /* Animación de desvanecimiento */
+        }
+
+        .carousel img.active {
+            opacity: 1; /* Mostrar la imagen activa */
+        }
+
+        /* Puntos de navegación */
+        .carousel-dots {
+            position: absolute;
+            top: 50%;
+            right: 20px;
+            transform: translateY(-50%);
+            display: flex;
+            flex-direction: column;
+            gap: 10px; /* Espacio entre puntos */
+            z-index: 10;
+        }
+
+        .carousel-dot {
+            width: 10px; /* Más pequeños */
+            height: 10px;
+            background-color: rgba(255, 255, 255, 0.3); /* Fondo semi-transparente */
+            border: 2px solid #FFD700; /* Borde dorado */
+            border-radius: 50%;
+            cursor: pointer;
+            position: relative;
+            overflow: hidden;
+            transition: transform 0.3s ease, background-color 0.3s ease;
+        }
+
+        .carousel-dot::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: #FFD700; /* Color dorado */
+            border-radius: 50%;
+            transform: scale(0);
+            transition: transform 5s linear; /* Animación de tiempo */
+        }
+
+        .carousel-dot.active::before {
+            transform: scale(1); /* Llenar el círculo */
+        }
+
+        .carousel-dot:hover {
+            transform: scale(1.2); /* Efecto de escala al pasar el mouse */
+            background-color: rgba(255, 215, 0, 0.5); /* Fondo más visible */
+        }
+
+        /* Secciones de contenido */
+        .section {
+            padding: 80px 20px;
+            text-align: center;
+            animation: smoothScroll 0.8s ease-out; /* Animación de entrada */
+        }
+
+        .section h2 {
+            font-family: 'Lobster', cursive;
+            font-size: 3rem;
+            color: #FFD700; /* Color dorado */
+            margin-bottom: 20px;
+            animation: fadeIn 1.5s ease-out; /* Animación de entrada */
+        }
+
+        .section p {
+            font-size: 1.2rem;
+            line-height: 1.6;
+            max-width: 800px;
+            margin: 0 auto;
+            animation: fadeIn 2s ease-out; /* Animación de entrada */
+        }
+
+        /* Galería de fotos y videos (más cuadrada y compacta) */
+        .gallery {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 10px; /* Espaciado entre miniaturas */
+            padding: 20px;
+        }
+
+        .gallery img, .gallery video {
+            width: 150px; /* Tamaño fijo para que sean cuadradas */
+            height: 150px; /* Tamaño fijo para que sean cuadradas */
+            object-fit: cover; /* Ajusta la imagen para cubrir el espacio */
+            border-radius: 10px;
+            transition: transform 0.3s ease, box-shadow 0.3s ease; /* Animaciones suaves */
+            cursor: pointer;
+        }
+
+        .gallery img:hover, .gallery video:hover {
+            transform: scale(1.1); /* Efecto de escala al pasar el mouse */
+            box-shadow: 0 0 20px rgba(255, 215, 0, 0.7); /* Sombra dorada */
+        }
+
+        /* Modal para expandir imágenes y videos */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.9);
+            z-index: 1000;
+            justify-content: center;
+            align-items: center;
+            animation: fadeIn 0.5s ease-out; /* Animación de entrada */
+        }
+
+        .modal.fade-out {
+            animation: fadeOut 0.5s ease-out; /* Animación de salida */
+        }
+
+        .modal-content {
+            max-width: 90%;
+            max-height: 90%;
+            border-radius: 10px;
+            cursor: pointer;
+            animation: zoomIn 0.5s ease-out; /* Animación de zoom al abrir */
+        }
+
+        .modal video {
+            max-width: 100%;
+            max-height: 100%;
+            cursor: pointer;
+        }
+
+        .close-modal {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            color: white;
+            font-size: 2rem;
+            cursor: pointer;
+            transition: color 0.3s ease; /* Animación de hover */
+        }
+
+        .close-modal:hover {
+            color: #FFD700; /* Color dorado al pasar el mouse */
+        }
+
+        /* Footer */
+        footer {
+            background-color: rgba(0, 0, 0, 0.8); /* Fondo semi-transparente */
+            padding: 20px;
+            text-align: center;
+            font-size: 0.9rem;
+            color: white;
+            animation: fadeInUp 1s ease-out; /* Animación de entrada */
+        }
+
+        footer p {
+            margin: 0;
+        }
+
+        /* Estilos para la pantalla de verificación de edad */
+        .age-verification {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.7); /* Fondo semi-transparente */
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-direction: column;
+            color: white;
+            z-index: 1000;
+            animation: fadeIn 1s ease-out; /* Animación de entrada */
+        }
+
+        .age-verification video {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            z-index: -1; /* Coloca el video detrás del contenido */
+        }
+
+        .age-verification h2 {
+            font-size: 2.5rem;
+            margin-bottom: 20px;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5); /* Sombra de texto */
+        }
+
+        .age-verification button {
+            padding: 15px 30px;
+            font-size: 1.2rem;
+            background-color: #FFD700;
+            border: none;
+            border-radius: 50px;
+            color: black;
+            cursor: pointer;
+            transition: background 0.3s ease;
+            margin: 10px;
+        }
+
+        .age-verification button:hover {
+            background-color: #FFCC00; /* Color más claro al pasar el mouse */
+        }
+
+        /* Estilo para el mensaje XDLOL */
+        .mock-message {
+            font-size: 2rem;
+            font-weight: bold;
+            color: #ff6f61;
+            margin-top: 20px;
+            animation: bounce 2s infinite; /* Animación de rebote */
+        }
+
+        /* Ventana emergente al seleccionar "No" */
+        .age-popup {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.9);
+            display: none;
+            justify-content: center;
+            align-items: center;
+            z-index: 1001;
+            animation: fadeIn 0.5s ease-out;
+        }
+
+        .age-popup h2 {
+            font-size: 3rem;
+            color: #FFD700;
+            text-align: center;
+            animation: pulse 2s infinite;
+        }
+
+        /* Botón "Volver arriba" */
+        .back-to-top {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            background-color: #FFD700;
+            color: black;
+            border: none;
+            border-radius: 50%;
+            width: 50px;
+            height: 50px;
+            font-size: 1.5rem;
+            cursor: pointer;
+            display: none; /* Oculto por defecto */
+            transition: background-color 0.3s ease;
+            animation: pulse 2s infinite; /* Animación de pulso */
+        }
+
+        .back-to-top:hover {
+            background-color: #FFCC00; /* Color más claro al pasar el mouse */
+        }
+
+        /* Sección de Testimonios */
+        .testimonials {
+            background: linear-gradient(45deg, #1a1a1a, #000);
+            padding: 80px 20px;
+            text-align: center;
+        }
+
+        .testimonials h2 {
+            font-family: 'Lobster', cursive;
+            font-size: 3rem;
+            color: #FFD700;
+            margin-bottom: 40px;
+            animation: fadeIn 1.5s ease-out;
+        }
+
+        .testimonial-card {
+            background-color: rgba(255, 215, 0, 0.1);
+            border: 1px solid rgba(255, 215, 0, 0.3);
+            border-radius: 10px;
+            padding: 20px;
+            margin: 20px auto;
+            max-width: 600px;
+            animation: fadeInUp 1s ease-out;
+        }
+
+        .testimonial-card p {
+            font-size: 1.1rem;
+            line-height: 1.6;
+        }
+
+        .testimonial-card span {
+            display: block;
+            margin-top: 10px;
+            font-weight: bold;
+            color: #FFD700;
+        }
+
+        /* Animaciones personalizadas */
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        @keyframes fadeOut {
+            from { opacity: 1; }
+            to { opacity: 0; }
+        }
+
+        @keyframes fadeInDown {
+            from {
+                opacity: 0;
+                transform: translateY(-20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes zoomIn {
+            from {
+                transform: scale(0.8);
+                opacity: 0;
+            }
+            to {
+                transform: scale(1);
+                opacity: 1;
+            }
+        }
+
+        @keyframes smoothScroll {
+            from {
+                transform: translateY(20px);
+                opacity: 0;
+            }
+            to {
+                transform: translateY(0);
+                opacity: 1;
+            }
+        }
+
+        @keyframes bounce {
+            0%, 20%, 50%, 80%, 100% {
+                transform: translateY(0);
+            }
+            40% {
+                transform: translateY(-20px);
+            }
+            60% {
+                transform: translateY(-10px);
+            }
+        }
+
+        @keyframes pulse {
+            0% {
+                transform: scale(1);
+            }
+            50% {
+                transform: scale(1.1);
+            }
+            100% {
+                transform: scale(1);
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Círculo que sigue el mouse -->
+    <div id="mouseCircle" class="mouse-circle"></div>
+
+    <!-- Verificación de Edad -->
+    <div id="ageVerification" class="age-verification">
+        <video autoplay muted loop>
+            <source src="media/videode.mp4" type="video/mp4">
+            Tu navegador no soporta videos.
+        </video>
+        <h2>¿Eres mayor de edad?</h2>
+        <button onclick="verifyAge(true)">Sí</button>
+        <button onclick="verifyAge(false)">No</button>
+    </div>
+
+    <!-- Ventana emergente al seleccionar "No" -->
+    <div id="agePopup" class="age-popup">
+        <h2>¡Dale a que sí! 😏</h2>
+    </div>
+
+    <!-- Mensaje de burla -->
+    <div id="mockMessage" class="mock-message" style="display: none;">
+        XDLOL
+    </div>
+
+    <!-- Contenido principal (oculto inicialmente) -->
+    <div id="mainContent" style="display: none;">
+        <!-- Encabezado -->
+        <header>
+            <div class="logo" onclick="scrollToTop()">BAREDO TOWN</div>
+            <nav>
+                <ul>
+                    <li><a href="#about" onclick="scrollToSection('about')">Acerca de</a></li>
+                    <li><a href="#services" onclick="scrollToSection('services')">Nuestros servicios</a></li>
+                    <li><a href="#gallery" onclick="scrollToSection('gallery')">Galería</a></li>
+                    <li><a href="#testimonials" onclick="scrollToSection('testimonials')">Testimonios</a></li>
+                    <li><a href="#contact" onclick="scrollToSection('contact')">Contacto</a></li>
+                </ul>
+            </nav>
+        </header>
+
+        <!-- Sección hero (carrusel de imágenes) -->
+        <section class="hero">
+            <div class="carousel" id="carousel">
+                <img src="media/gta-background.jpg" alt="GTA Background" class="active">
+                <img src="media/foto1.jpg" alt="Foto 1">
+                <img src="media/foto2.jpg" alt="Foto 2">
+            </div>
+            <!-- Puntos de navegación -->
+            <div class="carousel-dots" id="carouselDots"></div>
+        </section>
+
+        <!-- Sección Acerca de -->
+        <section id="about" class="section">
+            <h2>Acerca de BAREDO TOWN</h2>
+            <p>Bienvenido a BAREDO TOWN, el lugar donde las aventuras y la diversión se encuentran. Disfruta de nuestras experiencias únicas, productos y servicios en un entorno lleno de emoción. Mantente conectado y explora lo que tenemos para ofrecer.</p>
+        </section>
+
+        <!-- Sección Nuestros Servicios -->
+        <section id="services" class="section">
+            <h2>Nuestros Servicios</h2>
+            <p>En <strong>BAREDO TOWN</strong>, ofrecemos servicios de <strong>inseminación artificial</strong> de la más alta calidad. Nuestro equipo de expertos garantiza un proceso seguro, eficiente y personalizado para satisfacer tus necesidades. Confía en nosotros para hacer realidad tus sueños.</p>
+        </section>
+
+        <!-- Sección Galería (fotos y videos) -->
+        <section id="gallery" class="section">
+            <h2>Galería</h2>
+            <h3>Fotos</h3>
+            <div class="gallery">
+                <!-- Imágenes A (1) a A (37) -->
+                <script>
+                    for (let i = 1; i <= 37; i++) {
+                        document.write(`<img src="media/A (${i}).jpg" alt="Foto ${i}" onclick="openModal('media/A (${i}).jpg')">`);
+                    }
+                </script>
+            </div>
+            <h3>Videos</h3>
+            <div class="gallery">
+                <!-- Videos Q (1) a Q (14) -->
+                <script>
+                    for (let i = 1; i <= 14; i++) {
+                        document.write(`
+                            <video onclick="openModal('media/Q (${i}).mp4')">
+                                <source src="media/Q (${i}).mp4" type="video/mp4">
+                                Tu navegador no soporta videos.
+                            </video>
+                        `);
+                    }
+                </script>
+            </div>
+        </section>
+
+        <!-- Sección Testimonios -->
+        <section id="testimonials" class="testimonials">
+            <h2>Testimonios</h2>
+            <div class="testimonial-card">
+                <p>"Me gusta mucho las mujeres que hay, pero sin duda me quedo con... ¡las fiestas de BAREDO TOWN!"</p>
+                <span>- Diego Guede</span>
+            </div>
+            <div class="testimonial-card">
+                <p>"Gran lugar para noquear y dejar ojos morados. ¡Firu lo aprueba!"</p>
+                <span>- Firu</span>
+            </div>
+            <div class="testimonial-card">
+                <p>"Sin duda las mejores fiestas. ¡Pentateuco siempre está presente!"</p>
+                <span>- Pentateuco</span>
+            </div>
+            <div class="testimonial-card">
+                <p>"Gran lugar para echarse unos puros con los colegas. ¡Karim lo recomienda!"</p>
+                <span>- Karim</span>
+            </div>
+        </section>
+
+        <!-- Sección Contacto -->
+        <section id="contact" class="section">
+            <h2>INFO DE CONTACTO</h2>
+            <p><strong>NUMERO:</strong> 621085020</p>
+            <p><strong>FAX:</strong> 900-555-123</p>
+            <p><strong>MAIL:</strong> soyguapoygay18@gmail.com</p>
+            <p>Si quieres llamarme, bebe, ¡no dudes en hacerlo! Estaré esperando tu mensaje sexy 😘</p>
+        </section>
+
+        <!-- Footer -->
+        <footer>
+            <p>&copy; 2025 BAREDO TOWN. Todos los derechos reservados.</p>
+        </footer>
+
+        <!-- Botón "Volver arriba" -->
+        <button id="backToTop" class="back-to-top" onclick="scrollToTop()">&#8679;</button>
+    </div>
+
+    <!-- Modal para expandir imágenes y videos -->
+    <div id="modal" class="modal">
+        <span class="close-modal" onclick="closeModal()">&times;</span>
+        <img id="modal-content" class="modal-content">
+        <video id="modal-video" class="modal-content" controls></video>
+    </div>
+
+    <script>
+        // Función para verificar la edad
+        function verifyAge(isAdult) {
+            const ageVerification = document.getElementById('ageVerification');
+            const mockMessage = document.getElementById('mockMessage');
+            const mainContent = document.getElementById('mainContent');
+            const agePopup = document.getElementById('agePopup');
+
+            if (isAdult) {
+                // Si el usuario es mayor de edad
+                ageVerification.style.display = 'none'; // Ocultar la verificación de edad
+                mainContent.style.display = 'block'; // Mostrar el contenido principal
+            } else {
+                // Si el usuario no es mayor de edad
+                agePopup.style.display = 'flex'; // Mostrar la ventana emergente
+                setTimeout(() => {
+                    agePopup.style.display = 'none'; // Ocultar la ventana emergente después de 3 segundos
+                }, 3000); // 3 segundos
+            }
+        }
+
+        // Función para mover el círculo que sigue el mouse
+        document.addEventListener('mousemove', (e) => {
+            const mouseCircle = document.getElementById('mouseCircle');
+            mouseCircle.style.left = `${e.pageX}px`;
+            mouseCircle.style.top = `${e.pageY}px`;
+        });
+
+        // Carrusel de imágenes
+        let currentIndex = 0;
+        const carousel = document.getElementById('carousel');
+        const slides = carousel.querySelectorAll('img');
+        const totalSlides = slides.length;
+        const carouselDots = document.getElementById('carouselDots');
+
+        // Crear puntos de navegación
+        for (let i = 0; i < totalSlides; i++) {
+            const dot = document.createElement('div');
+            dot.classList.add('carousel-dot');
+            dot.addEventListener('click', () => goToSlide(i));
+            carouselDots.appendChild(dot);
+        }
+
+        // Mostrar la imagen actual
+        function showSlide(index) {
+            slides.forEach((slide, i) => {
+                slide.classList.remove('active');
+                if (i === index) {
+                    slide.classList.add('active');
+                }
+            });
+
+            // Actualizar puntos de navegación
+            const dots = carouselDots.querySelectorAll('.carousel-dot');
+            dots.forEach((dot, i) => {
+                dot.classList.remove('active');
+                if (i === index) {
+                    dot.classList.add('active');
+                }
+            });
+        }
+
+        // Cambiar a una imagen específica
+        function goToSlide(index) {
+            currentIndex = index;
+            showSlide(currentIndex);
+            resetTimer();
+        }
+
+        // Cambiar a la siguiente imagen
+        function nextSlide() {
+            currentIndex = (currentIndex + 1) % totalSlides;
+            showSlide(currentIndex);
+            resetTimer();
+        }
+
+        // Reiniciar el temporizador del carrusel
+        let timer;
+        function resetTimer() {
+            clearInterval(timer);
+            timer = setInterval(nextSlide, 5000); // Cambiar automáticamente cada 5 segundos
+        }
+
+        // Iniciar el carrusel
+        showSlide(currentIndex);
+        resetTimer();
+
+        // Galería modal
+        function openModal(src) {
+            const modal = document.getElementById('modal');
+            const modalContent = document.getElementById('modal-content');
+            const modalVideo = document.getElementById('modal-video');
+
+            if (src.endsWith('.mp4')) {
+                modalVideo.src = src;
+                modalVideo.style.display = 'block';
+                modalVideo.play(); // Reproducir el video al abrir el modal
+                modalContent.style.display = 'none';
+            } else {
+                modalContent.src = src;
+                modalContent.style.display = 'block';
+                modalVideo.style.display = 'none';
+            }
+
+            modal.style.display = 'flex';
+        }
+
+        // Función para cerrar el modal con animación
+        function closeModal() {
+            const modal = document.getElementById('modal');
+            const modalVideo = document.getElementById('modal-video');
+            modalVideo.pause(); // Pausar el video al cerrar el modal
+            modal.classList.add('fade-out');
+            setTimeout(() => {
+                modal.style.display = 'none';
+                modal.classList.remove('fade-out');
+            }, 500); // Duración de la animación
+        }
+
+        // Función para desplazarse suavemente a una sección
+        function scrollToSection(sectionId) {
+            const section = document.getElementById(sectionId);
+            if (section) {
+                section.scrollIntoView({
+                    behavior: 'smooth', // Desplazamiento suave
+                    block: 'start', // Alinea la sección en la parte superior
+                    inline: 'nearest'
+                });
+            }
+        }
+
+        // Función para volver al principio de la página
+        function scrollToTop() {
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+        // Mostrar u ocultar el botón "Volver arriba"
+        window.addEventListener('scroll', () => {
+            const backToTop = document.getElementById('backToTop');
+            if (window.scrollY > 300) {
+                backToTop.style.display = 'block';
+            } else {
+                backToTop.style.display = 'none';
+            }
+        });
+    </script>
+</body>
+</html>
