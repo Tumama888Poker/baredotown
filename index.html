@@ -52,6 +52,7 @@
             transition: transform 0.1s ease-out, opacity 0.2s ease-out; /* Suaviza el movimiento */
             opacity: 0.8; /* Transparencia */
             z-index: 1001; /* Asegura que esté por encima del modal */
+            display: none; /* Oculto por defecto */
         }
 
         /* Encabezado */
@@ -646,6 +647,32 @@
     </div>
 
     <script>
+        // Función para detectar si es un dispositivo móvil
+        function isMobileDevice() {
+            return /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
+        }
+
+        // Ocultar el cursor en móviles y mostrarlo en PCs
+        window.onload = function() {
+            const mouseCircle = document.getElementById('mouseCircle');
+            if (isMobileDevice()) {
+                document.body.style.cursor = 'auto'; // Mostrar cursor predeterminado en móviles
+                mouseCircle.style.display = 'none'; // Ocultar el cursor personalizado
+            } else {
+                document.body.style.cursor = 'none'; // Ocultar cursor predeterminado en PCs
+                mouseCircle.style.display = 'block'; // Mostrar el cursor personalizado
+            }
+        };
+
+        // Función para mover el círculo que sigue el mouse (solo en PCs)
+        document.addEventListener('mousemove', (e) => {
+            const mouseCircle = document.getElementById('mouseCircle');
+            if (!isMobileDevice() && mouseCircle) { // Verificamos si no es móvil y si el círculo existe
+                mouseCircle.style.left = `${e.pageX}px`;
+                mouseCircle.style.top = `${e.pageY}px`;
+            }
+        });
+
         // Función para verificar la edad
         function verifyAge(isAdult) {
             const ageVerification = document.getElementById('ageVerification');
@@ -665,13 +692,6 @@
                 }, 3000); // 3 segundos
             }
         }
-
-        // Función para mover el círculo que sigue el mouse
-        document.addEventListener('mousemove', (e) => {
-            const mouseCircle = document.getElementById('mouseCircle');
-            mouseCircle.style.left = `${e.pageX}px`;
-            mouseCircle.style.top = `${e.pageY}px`;
-        });
 
         // Carrusel de imágenes
         let currentIndex = 0;
