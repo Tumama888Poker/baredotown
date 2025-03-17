@@ -18,7 +18,6 @@
             background-color: #000; /* Fondo negro */
             color: white;
             overflow-x: hidden;
-            min-height: 100vh; /* Asegura que el body ocupe al menos el 100% de la altura de la pantalla */
         }
 
         /* Habilitar desplazamiento suave en toda la página */
@@ -63,7 +62,7 @@
             width: 100%;
             background-color: rgba(0, 0, 0, 0.8); /* Fondo semi-transparente */
             z-index: 1000;
-            padding: 10px;
+            padding: 10px 20px;
             display: flex;
             justify-content: space-between;
             align-items: center;
@@ -72,7 +71,7 @@
 
         header .logo {
             font-family: 'Lobster', cursive;
-            font-size: 1.5rem; /* Tamaño de fuente más pequeño para móviles */
+            font-size: 2rem;
             color: #FFD700; /* Color dorado */
             cursor: pointer;
             transition: transform 0.3s ease; /* Animación de hover */
@@ -91,13 +90,13 @@
         }
 
         header nav ul li {
-            margin-left: 10px; /* Menos espacio entre elementos del menú */
+            margin-left: 20px;
         }
 
         header nav ul li a {
             color: white;
             text-decoration: none;
-            font-size: 0.9rem; /* Tamaño de fuente más pequeño para móviles */
+            font-size: 1rem;
             transition: color 0.3s ease, transform 0.3s ease; /* Animación de hover */
         }
 
@@ -184,25 +183,25 @@
 
         /* Secciones de contenido */
         .section {
-            padding: 20px; /* Reducimos el padding para móviles */
+            padding: 80px 20px;
             text-align: center;
             animation: smoothScroll 0.8s ease-out; /* Animación de entrada */
-            box-sizing: border-box; /* Asegura que el padding no afecte el ancho total */
         }
 
         .section h2 {
             font-family: 'Lobster', cursive;
-            font-size: 2rem; /* Tamaño de fuente más pequeño para móviles */
+            font-size: 3rem;
             color: #FFD700; /* Color dorado */
             margin-bottom: 20px;
             animation: fadeIn 1.5s ease-out; /* Animación de entrada */
         }
 
         .section p {
-            font-size: 1rem; /* Tamaño de fuente más pequeño para móviles */
+            font-size: 1.2rem;
             line-height: 1.6;
-            max-width: 90%; /* Limita el ancho del texto para que no se salga de la pantalla */
-            margin: 0 auto; /* Centra el texto */
+            max-width: 800px;
+            margin: 0 auto;
+            animation: fadeIn 2s ease-out; /* Animación de entrada */
         }
 
         /* Galería de fotos y videos (más cuadrada y compacta) */
@@ -590,7 +589,7 @@
                 <script>
                     for (let i = 1; i <= 14; i++) {
                         document.write(`
-                            <video playsinline controls poster="media/poster.jpg" onclick="openModal('media/Q (${i}).mp4')">
+                            <video onclick="openModal('media/Q (${i}).mp4')">
                                 <source src="media/Q (${i}).mp4" type="video/mp4">
                                 Tu navegador no soporta videos.
                             </video>
@@ -643,7 +642,7 @@
     <div id="modal" class="modal">
         <span class="close-modal" onclick="closeModal()">&times;</span>
         <img id="modal-content" class="modal-content">
-        <video id="modal-video" class="modal-content" controls playsinline></video>
+        <video id="modal-video" class="modal-content" controls></video>
     </div>
 
     <script>
@@ -761,7 +760,6 @@
             if (src.endsWith('.mp4')) {
                 modalVideo.src = src;
                 modalVideo.style.display = 'block';
-                modalVideo.setAttribute('playsinline', ''); // Añade playsinline para iOS
                 modalVideo.play(); // Reproducir el video al abrir el modal
                 modalContent.style.display = 'none';
             } else {
