@@ -505,6 +505,51 @@
                 transform: scale(1);
             }
         }
+
+        /* Ajustes para móviles */
+        @media (max-width: 768px) {
+            /* Encabezado */
+            header .logo {
+                font-size: 1.5rem; /* Tamaño de fuente más pequeño */
+            }
+
+            header nav ul li a {
+                font-size: 0.9rem; /* Tamaño de fuente más pequeño */
+            }
+
+            /* Secciones */
+            .section {
+                padding: 40px 10px; /* Menos padding para móviles */
+            }
+
+            .section h2 {
+                font-size: 2rem; /* Tamaño de fuente más pequeño */
+            }
+
+            .section p {
+                font-size: 1rem; /* Tamaño de fuente más pequeño */
+            }
+
+            /* Galería */
+            .gallery img, .gallery video {
+                width: 100px; /* Tamaño más pequeño para móviles */
+                height: 100px;
+            }
+
+            /* Testimonios */
+            .testimonial-card {
+                padding: 15px; /* Menos padding para móviles */
+            }
+
+            .testimonial-card p {
+                font-size: 1rem; /* Tamaño de fuente más pequeño */
+            }
+
+            /* Footer */
+            footer {
+                padding: 10px; /* Menos padding para móviles */
+            }
+        }
     </style>
 </head>
 <body>
@@ -589,7 +634,7 @@
                 <script>
                     for (let i = 1; i <= 14; i++) {
                         document.write(`
-                            <video onclick="openModal('media/Q (${i}).mp4')">
+                            <video playsinline controls poster="media/poster.jpg" onclick="openModal('media/Q (${i}).mp4')">
                                 <source src="media/Q (${i}).mp4" type="video/mp4">
                                 Tu navegador no soporta videos.
                             </video>
@@ -642,7 +687,7 @@
     <div id="modal" class="modal">
         <span class="close-modal" onclick="closeModal()">&times;</span>
         <img id="modal-content" class="modal-content">
-        <video id="modal-video" class="modal-content" controls></video>
+        <video id="modal-video" class="modal-content" controls playsinline></video>
     </div>
 
     <script>
@@ -685,6 +730,7 @@
                 mainContent.style.display = 'block'; // Mostrar el contenido principal
             } else {
                 // Si el usuario no es mayor de edad
+                ageVerification.style.display = 'none'; // Ocultar la verificación de edad
                 agePopup.style.display = 'flex'; // Mostrar la ventana emergente
                 setTimeout(() => {
                     agePopup.style.display = 'none'; // Ocultar la ventana emergente después de 3 segundos
@@ -760,6 +806,7 @@
             if (src.endsWith('.mp4')) {
                 modalVideo.src = src;
                 modalVideo.style.display = 'block';
+                modalVideo.setAttribute('playsinline', ''); // Añade playsinline para iOS
                 modalVideo.play(); // Reproducir el video al abrir el modal
                 modalContent.style.display = 'none';
             } else {
