@@ -627,12 +627,17 @@
         <!-- Sección hero (carrusel de imágenes) -->
         <section class="hero">
             <div class="carousel" id="carousel">
-                <img src="media/gta-background.jpg" alt="GTA Background" class="active">
+                <img src="media/pepe.jpg" alt="PEPE" class="active">
+                <img src="media/gta-background.jpg" alt="GTA Background">
                 <img src="media/foto1.jpg" alt="Foto 1">
                 <img src="media/foto2.jpg" alt="Foto 2">
             </div>
             <!-- Puntos de navegación -->
             <div class="carousel-dots" id="carouselDots"></div>
+            <!-- Mensaje "Tab para descubrirlo" -->
+            <div id="discoverMessage" style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); color: white; font-size: 2rem; text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5); cursor: pointer;">
+                Tab para descubrirlo
+            </div>
         </section>
 
         <!-- Sección Acerca de -->
@@ -666,7 +671,7 @@
                     for (let i = 1; i <= 14; i++) {
                         document.write(`
                             <div class="video-container" onclick="openVideoModal('media/Q (${i}).mp4')">
-                                <video class="video-thumbnail" muted loop>
+                                <video class="video-thumbnail" muted loop poster="media/poster${i}.jpg">
                                     <source src="media/Q (${i}).mp4" type="video/mp4">
                                     Tu navegador no soporta videos.
                                 </video>
@@ -905,21 +910,13 @@
             }
         });
 
-        // Capturar el primer frame de cada video como portada
-        document.addEventListener('DOMContentLoaded', () => {
-            const videoContainers = document.querySelectorAll('.video-container video');
-            videoContainers.forEach(video => {
-                video.addEventListener('loadeddata', () => {
-                    const canvas = document.createElement('canvas');
-                    canvas.width = video.videoWidth;
-                    canvas.height = video.videoHeight;
-                    const ctx = canvas.getContext('2d');
-                    ctx.drawImage(video, 0, 0, canvas.width, canvas.height);
-                    video.parentElement.style.backgroundImage = `url(${canvas.toDataURL()})`;
-                    video.style.display = 'none'; // Ocultar el video después de capturar el frame
-                });
+        // Ocultar el mensaje "Tab para descubrirlo" al hacer clic
+        const discoverMessage = document.getElementById('discoverMessage');
+        if (discoverMessage) {
+            discoverMessage.addEventListener('click', () => {
+                discoverMessage.style.display = 'none';
             });
-        });
+        }
     </script>
 </body>
 </html>
