@@ -516,7 +516,7 @@
 
     <!-- Verificación de Edad -->
     <div id="ageVerification" class="age-verification">
-        <video autoplay muted loop>
+        <video autoplay muted loop poster="media/fallback.jpg">
             <source src="media/videode.mp4" type="video/mp4">
             Tu navegador no soporta videos.
         </video>
@@ -592,7 +592,7 @@
                 <script>
                     for (let i = 1; i <= 14; i++) {
                         document.write(`
-                            <video onclick="openModal('media/Q (${i}).mp4')">
+                            <video autoplay muted loop poster="media/fallback.jpg" onclick="openModal('media/Q (${i}).mp4')">
                                 <source src="media/Q (${i}).mp4" type="video/mp4">
                                 Tu navegador no soporta videos.
                             </video>
@@ -823,6 +823,16 @@
             } else {
                 backToTop.style.display = 'none';
             }
+        });
+
+        // Forzar la reproducción de videos en móviles
+        document.addEventListener('DOMContentLoaded', function() {
+            const videos = document.querySelectorAll('video');
+            videos.forEach(video => {
+                video.play().catch(error => {
+                    console.error("Error al reproducir el video:", error);
+                });
+            });
         });
     </script>
 </body>
