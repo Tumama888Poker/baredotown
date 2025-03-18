@@ -18,6 +18,7 @@
             background-color: #000; /* Fondo negro */
             color: white;
             overflow-x: hidden;
+            cursor: none; /* Oculta el cursor predeterminado */
         }
 
         /* Habilitar desplazamiento suave en toda la página */
@@ -51,7 +52,6 @@
             transition: transform 0.1s ease-out, opacity 0.2s ease-out; /* Suaviza el movimiento */
             opacity: 0.8; /* Transparencia */
             z-index: 1001; /* Asegura que esté por encima del modal */
-            display: none; /* Oculto por defecto */
         }
 
         /* Encabezado */
@@ -213,7 +213,7 @@
             padding: 20px;
         }
 
-        .gallery img, .gallery .video-container {
+        .gallery img, .gallery video {
             width: 150px; /* Tamaño fijo para que sean cuadradas */
             height: 150px; /* Tamaño fijo para que sean cuadradas */
             object-fit: cover; /* Ajusta la imagen para cubrir el espacio */
@@ -222,40 +222,9 @@
             cursor: pointer;
         }
 
-        .gallery img:hover, .gallery .video-container:hover {
+        .gallery img:hover, .gallery video:hover {
             transform: scale(1.1); /* Efecto de escala al pasar el mouse */
             box-shadow: 0 0 20px rgba(255, 215, 0, 0.7); /* Sombra dorada */
-        }
-
-        /* Estilos para el contenedor de video */
-        .video-container {
-            position: relative;
-            overflow: hidden;
-            background-color: #000; /* Fondo negro para evitar que se vea el video */
-        }
-
-        .video-container img {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-            border-radius: 10px;
-        }
-
-        /* Ícono de reproducción */
-        .play-icon {
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            font-size: 2rem;
-            color: white;
-            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
-            opacity: 0.8;
-            transition: opacity 0.3s ease;
-        }
-
-        .video-container:hover .play-icon {
-            opacity: 1;
         }
 
         /* Modal para expandir imágenes y videos */
@@ -536,51 +505,6 @@
                 transform: scale(1);
             }
         }
-
-        /* Ajustes para móviles */
-        @media (max-width: 768px) {
-            /* Encabezado */
-            header .logo {
-                font-size: 1.5rem; /* Tamaño de fuente más pequeño */
-            }
-
-            header nav ul li a {
-                font-size: 0.9rem; /* Tamaño de fuente más pequeño */
-            }
-
-            /* Secciones */
-            .section {
-                padding: 40px 10px; /* Menos padding para móviles */
-            }
-
-            .section h2 {
-                font-size: 2rem; /* Tamaño de fuente más pequeño */
-            }
-
-            .section p {
-                font-size: 1rem; /* Tamaño de fuente más pequeño */
-            }
-
-            /* Galería */
-            .gallery img, .gallery .video-container {
-                width: 100px; /* Tamaño más pequeño para móviles */
-                height: 100px;
-            }
-
-            /* Testimonios */
-            .testimonial-card {
-                padding: 15px; /* Menos padding para móviles */
-            }
-
-            .testimonial-card p {
-                font-size: 1rem; /* Tamaño de fuente más pequeño */
-            }
-
-            /* Footer */
-            footer {
-                padding: 10px; /* Menos padding para móviles */
-            }
-        }
     </style>
 </head>
 <body>
@@ -627,17 +551,12 @@
         <!-- Sección hero (carrusel de imágenes) -->
         <section class="hero">
             <div class="carousel" id="carousel">
-                <img src="media/pepe.jpg" alt="PEPE" class="active">
-                <img src="media/gta-background.jpg" alt="GTA Background">
+                <img src="media/gta-background.jpg" alt="GTA Background" class="active">
                 <img src="media/foto1.jpg" alt="Foto 1">
                 <img src="media/foto2.jpg" alt="Foto 2">
             </div>
             <!-- Puntos de navegación -->
             <div class="carousel-dots" id="carouselDots"></div>
-            <!-- Mensaje "Tab para descubrirlo" -->
-            <div id="discoverMessage" style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); color: white; font-size: 2rem; text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5); cursor: pointer;">
-                Tab para descubrirlo
-            </div>
         </section>
 
         <!-- Sección Acerca de -->
@@ -670,13 +589,10 @@
                 <script>
                     for (let i = 1; i <= 14; i++) {
                         document.write(`
-                            <div class="video-container" onclick="openVideoModal('media/Q (${i}).mp4')">
-                                <video class="video-thumbnail" muted loop poster="media/poster${i}.jpg">
-                                    <source src="media/Q (${i}).mp4" type="video/mp4">
-                                    Tu navegador no soporta videos.
-                                </video>
-                                <div class="play-icon">&#9658;</div> <!-- Ícono de reproducción -->
-                            </div>
+                            <video onclick="openModal('media/Q (${i}).mp4')">
+                                <source src="media/Q (${i}).mp4" type="video/mp4">
+                                Tu navegador no soporta videos.
+                            </video>
                         `);
                     }
                 </script>
@@ -726,7 +642,7 @@
     <div id="modal" class="modal">
         <span class="close-modal" onclick="closeModal()">&times;</span>
         <img id="modal-content" class="modal-content">
-        <video id="modal-video" class="modal-content" controls playsinline></video>
+        <video id="modal-video" class="modal-content" controls></video>
     </div>
 
     <script>
@@ -735,26 +651,15 @@
             return /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
         }
 
-        // Ocultar el cursor en móviles y mostrarlo en PCs
+        // Ocultar el cursor en móviles
         window.onload = function() {
             const mouseCircle = document.getElementById('mouseCircle');
             if (isMobileDevice()) {
-                document.body.style.cursor = 'auto'; // Mostrar cursor predeterminado en móviles
-                mouseCircle.style.display = 'none'; // Ocultar el cursor personalizado
+                mouseCircle.style.display = 'none'; // Ocultar el cursor en móviles
             } else {
-                document.body.style.cursor = 'none'; // Ocultar cursor predeterminado en PCs
-                mouseCircle.style.display = 'block'; // Mostrar el cursor personalizado
+                mouseCircle.style.display = 'block'; // Mostrar el cursor en PCs
             }
         };
-
-        // Función para mover el círculo que sigue el mouse (solo en PCs)
-        document.addEventListener('mousemove', (e) => {
-            const mouseCircle = document.getElementById('mouseCircle');
-            if (!isMobileDevice() && mouseCircle) { // Verificamos si no es móvil y si el círculo existe
-                mouseCircle.style.left = `${e.pageX}px`;
-                mouseCircle.style.top = `${e.pageY}px`;
-            }
-        });
 
         // Función para verificar la edad
         function verifyAge(isAdult) {
@@ -769,13 +674,19 @@
                 mainContent.style.display = 'block'; // Mostrar el contenido principal
             } else {
                 // Si el usuario no es mayor de edad
-                ageVerification.style.display = 'none'; // Ocultar la verificación de edad
                 agePopup.style.display = 'flex'; // Mostrar la ventana emergente
                 setTimeout(() => {
                     agePopup.style.display = 'none'; // Ocultar la ventana emergente después de 3 segundos
                 }, 3000); // 3 segundos
             }
         }
+
+        // Función para mover el círculo que sigue el mouse
+        document.addEventListener('mousemove', (e) => {
+            const mouseCircle = document.getElementById('mouseCircle');
+            mouseCircle.style.left = `${e.pageX}px`;
+            mouseCircle.style.top = `${e.pageY}px`;
+        });
 
         // Carrusel de imágenes
         let currentIndex = 0;
@@ -845,8 +756,6 @@
             if (src.endsWith('.mp4')) {
                 modalVideo.src = src;
                 modalVideo.style.display = 'block';
-                modalVideo.setAttribute('playsinline', ''); // Añade playsinline para iOS
-                modalVideo.setAttribute('controls', ''); // Añade controles para móviles
                 modalVideo.play(); // Reproducir el video al abrir el modal
                 modalContent.style.display = 'none';
             } else {
@@ -858,24 +767,11 @@
             modal.style.display = 'flex';
         }
 
-        // Función para abrir el modal de video
-        function openVideoModal(src) {
-            const modal = document.getElementById('modal');
-            const modalVideo = document.getElementById('modal-video');
-            modalVideo.src = src;
-            modalVideo.style.display = 'block';
-            modalVideo.setAttribute('playsinline', ''); // Añade playsinline para iOS
-            modalVideo.setAttribute('controls', ''); // Añade controles para móviles
-            modalVideo.play(); // Reproducir el video al abrir el modal
-            modal.style.display = 'flex';
-        }
-
         // Función para cerrar el modal con animación
         function closeModal() {
             const modal = document.getElementById('modal');
             const modalVideo = document.getElementById('modal-video');
             modalVideo.pause(); // Pausar el video al cerrar el modal
-            modalVideo.currentTime = 0; // Reiniciar el video
             modal.classList.add('fade-out');
             setTimeout(() => {
                 modal.style.display = 'none';
@@ -909,14 +805,6 @@
                 backToTop.style.display = 'none';
             }
         });
-
-        // Ocultar el mensaje "Tab para descubrirlo" al hacer clic
-        const discoverMessage = document.getElementById('discoverMessage');
-        if (discoverMessage) {
-            discoverMessage.addEventListener('click', () => {
-                discoverMessage.style.display = 'none';
-            });
-        }
     </script>
 </body>
 </html>
