@@ -40,7 +40,7 @@
             background-color: rgba(0, 0, 0, 0.1); /* Fondo de la pista */
         }
 
-        /* Círculo que sigue el mouse */
+        /* Círculo que sigue el mouse con retardo */
         .mouse-circle {
             position: absolute;
             width: 40px;
@@ -49,7 +49,7 @@
             border-radius: 50%;
             pointer-events: none; /* Evita que el círculo interfiera con los clics */
             transform: translate(-50%, -50%); /* Centra el círculo en el mouse */
-            transition: transform 0.1s ease-out, opacity 0.2s ease-out; /* Suaviza el movimiento */
+            transition: transform 0.2s ease-out, opacity 0.2s ease-out; /* Retardo suave */
             opacity: 0.8; /* Transparencia */
             z-index: 1001; /* Asegura que esté por encima del modal */
         }
@@ -274,7 +274,7 @@
             color: #FFD700; /* Color dorado al pasar el mouse */
         }
 
-        /* Footer */
+        /* Footer con recuadro gris */
         footer {
             background-color: rgba(0, 0, 0, 0.8); /* Fondo semi-transparente */
             padding: 20px;
@@ -284,8 +284,11 @@
             animation: fadeInUp 1s ease-out; /* Animación de entrada */
         }
 
-        footer p {
-            margin: 0;
+        footer .rights {
+            background-color: rgba(255, 255, 255, 0.1); /* Fondo gris semi-transparente */
+            padding: 10px 20px;
+            border-radius: 10px;
+            display: inline-block;
         }
 
         /* Estilos para la pantalla de verificación de edad */
@@ -508,7 +511,7 @@
     </style>
 </head>
 <body>
-    <!-- Círculo que sigue el mouse -->
+    <!-- Círculo que sigue el mouse con retardo -->
     <div id="mouseCircle" class="mouse-circle"></div>
 
     <!-- Verificación de Edad -->
@@ -629,9 +632,11 @@
             <p>Si quieres llamarme, bebe, ¡no dudes en hacerlo! Estaré esperando tu mensaje sexy 😘</p>
         </section>
 
-        <!-- Footer -->
+        <!-- Footer con recuadro gris -->
         <footer>
-            <p>&copy; 2025 BAREDO TOWN. Todos los derechos reservados.</p>
+            <div class="rights">
+                &copy; 2025 BAREDO TOWN. Todos los derechos reservados.
+            </div>
         </footer>
 
         <!-- Botón "Volver arriba" -->
@@ -681,12 +686,26 @@
             }
         }
 
-        // Función para mover el círculo que sigue el mouse
+        // Función para mover el círculo que sigue el mouse con retardo
+        let mouseX = 0, mouseY = 0;
+        let circleX = 0, circleY = 0;
+        const mouseCircle = document.getElementById('mouseCircle');
+
         document.addEventListener('mousemove', (e) => {
-            const mouseCircle = document.getElementById('mouseCircle');
-            mouseCircle.style.left = `${e.pageX}px`;
-            mouseCircle.style.top = `${e.pageY}px`;
+            mouseX = e.pageX;
+            mouseY = e.pageY;
         });
+
+        function followMouse() {
+            const delay = 0.2; // Ajusta el retardo (0.1 = rápido, 0.5 = lento)
+            circleX += (mouseX - circleX) * delay;
+            circleY += (mouseY - circleY) * delay;
+            mouseCircle.style.left = `${circleX}px`;
+            mouseCircle.style.top = `${circleY}px`;
+            requestAnimationFrame(followMouse);
+        }
+
+        followMouse();
 
         // Carrusel de imágenes
         let currentIndex = 0;
