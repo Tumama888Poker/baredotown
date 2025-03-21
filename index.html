@@ -54,6 +54,13 @@
             z-index: 1001; /* Asegura que esté por encima del modal */
         }
 
+        /* Media query para ocultar el cursor en móviles */
+        @media (pointer: coarse) {
+            .mouse-circle {
+                display: none; /* Oculta el cursor en dispositivos móviles */
+            }
+        }
+
         /* Encabezado */
         header {
             position: fixed;
