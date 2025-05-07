@@ -2,59 +2,31 @@
 <html lang="es">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>BAREDO TOWN - Galería</title>
+    <title>Galería BAREDO TOWN</title>
     <style>
-        /* ESTILOS GENERALES */
         body {
-            margin: 0;
-            padding: 0;
-            font-family: Arial, sans-serif;
-            background-color: #111;
+            background: #000;
             color: white;
-        }
-
-        /* GALERÍA */
-        .gallery-container {
+            font-family: Arial;
             padding: 20px;
-            max-width: 1200px;
-            margin: 0 auto;
         }
-
-        .gallery-title {
-            text-align: center;
-            margin-bottom: 30px;
-            font-size: 2.5rem;
-            color: #FFD700;
-        }
-
         .gallery {
             display: grid;
             grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
             gap: 15px;
-            padding: 15px;
+            margin-top: 20px;
         }
-
         .gallery-item {
-            border-radius: 8px;
-            overflow: hidden;
-            box-shadow: 0 4px 8px rgba(0,0,0,0.3);
-            transition: transform 0.3s;
             height: 200px;
+            overflow: hidden;
+            border-radius: 8px;
+            cursor: pointer;
         }
-
-        .gallery-item:hover {
-            transform: scale(1.03);
-        }
-
         .gallery-item img, .gallery-item video {
             width: 100%;
             height: 100%;
             object-fit: cover;
-            cursor: pointer;
         }
-
-        /* MODAL */
         .modal {
             display: none;
             position: fixed;
@@ -62,249 +34,154 @@
             left: 0;
             width: 100%;
             height: 100%;
-            background-color: rgba(0,0,0,0.9);
+            background: rgba(0,0,0,0.9);
             z-index: 1000;
             align-items: center;
             justify-content: center;
         }
-
         .modal-content {
             max-width: 90%;
             max-height: 90%;
-            border-radius: 8px;
-            box-shadow: 0 0 20px rgba(255,215,0,0.3);
         }
-
-        /* FLECHAS DE NAVEGACIÓN */
-        .modal-nav {
+        .arrow {
             position: absolute;
-            width: 100%;
-            display: flex;
-            justify-content: space-between;
             top: 50%;
             transform: translateY(-50%);
-            padding: 0 20px;
-            box-sizing: border-box;
-            pointer-events: none;
-        }
-
-        .modal-arrow {
             color: white;
-            font-size: 2.5rem;
+            font-size: 40px;
             cursor: pointer;
-            background: rgba(0,0,0,0.5);
-            width: 60px;
-            height: 60px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            border-radius: 50%;
-            transition: all 0.3s;
-            pointer-events: all;
+            user-select: none;
         }
-
-        .modal-arrow:hover {
-            background: rgba(255,215,0,0.7);
-            transform: scale(1.1);
-        }
-
-        /* BOTÓN CERRAR */
-        .close-modal {
+        .left { left: 20px; }
+        .right { right: 20px; }
+        .close {
             position: absolute;
-            top: 30px;
-            right: 30px;
+            top: 20px;
+            right: 20px;
             color: white;
-            font-size: 2rem;
+            font-size: 30px;
             cursor: pointer;
-            background: rgba(0,0,0,0.5);
-            width: 50px;
-            height: 50px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            border-radius: 50%;
-            transition: all 0.3s;
-        }
-
-        .close-modal:hover {
-            background: rgba(255,0,0,0.7);
-        }
-
-        /* RESPONSIVE */
-        @media (max-width: 768px) {
-            .gallery {
-                grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
-            }
-            
-            .gallery-item {
-                height: 150px;
-            }
-            
-            .modal-arrow {
-                width: 40px;
-                height: 40px;
-                font-size: 1.8rem;
-            }
         }
     </style>
 </head>
 <body>
-    <!-- GALERÍA PRINCIPAL -->
-    <div class="gallery-container">
-        <h1 class="gallery-title">Galería BAREDO TOWN</h1>
+
+<h1>Galería BAREDO TOWN</h1>
+
+<!-- REEMPLAZA ESTOS EJEMPLOS CON TUS ARCHIVOS REALES -->
+<div class="gallery">
+    <!-- Fotos -->
+    <div class="gallery-item" onclick="abrirModal('media/fiesta1.jpg', 'foto')">
+        <img src="media/fiesta1.jpg" alt="Fiesta 1">
+    </div>
+    
+    <!-- Videos -->
+    <div class="gallery-item" onclick="abrirModal('media/video1.mp4', 'video')">
+        <video muted loop>
+            <source src="media/video1.mp4" type="video/mp4">
+        </video>
+    </div>
+</div>
+
+<!-- Modal -->
+<div id="modal" class="modal">
+    <span class="close" onclick="cerrarModal()">×</span>
+    <span class="arrow left" onclick="cambiarItem(-1)">❮</span>
+    <span class="arrow right" onclick="cambiarItem(1)">❯</span>
+    <img id="modal-foto" class="modal-content" style="display:none;">
+    <video id="modal-video" class="modal-content" controls style="display:none;"></video>
+</div>
+
+<script>
+// 1. CONFIGURACIÓN INICIAL
+const elementos = [];
+let indiceActual = 0;
+
+// 2. DETECTA TODOS LOS ELEMENTOS AL CARGAR LA PÁGINA
+window.onload = function() {
+    document.querySelectorAll('.gallery-item').forEach(item => {
+        const img = item.querySelector('img');
+        const video = item.querySelector('video');
         
-        <div class="gallery">
-            <!-- EJEMPLO DE FOTOS - REEMPLAZA CON TUS IMÁGENES -->
-            <div class="gallery-item" onclick="openMediaModal('media/foto1.jpg', 'image')">
-                <img src="media/foto1.jpg" alt="Foto 1">
-            </div>
-            <div class="gallery-item" onclick="openMediaModal('media/foto2.jpg', 'image')">
-                <img src="media/foto2.jpg" alt="Foto 2">
-            </div>
-            
-            <!-- EJEMPLO DE VIDEOS - REEMPLAZA CON TUS VIDEOS -->
-            <div class="gallery-item" onclick="openMediaModal('media/video1.mp4', 'video')">
-                <video muted loop>
-                    <source src="media/video1.mp4" type="video/mp4">
-                </video>
-            </div>
-            <div class="gallery-item" onclick="openMediaModal('media/video2.mp4', 'video')">
-                <video muted loop>
-                    <source src="media/video2.mp4" type="video/mp4">
-                </video>
-            </div>
-            
-            <!-- Añade más elementos según necesites -->
-        </div>
-    </div>
-
-    <!-- MODAL -->
-    <div id="mediaModal" class="modal">
-        <div class="modal-nav">
-            <div class="modal-arrow" onclick="navigateMedia(-1)">❮</div>
-            <div class="modal-arrow" onclick="navigateMedia(1)">❯</div>
-        </div>
-        <img id="modalImage" class="modal-content" style="display:none;">
-        <video id="modalVideo" class="modal-content" controls style="display:none;"></video>
-        <div class="close-modal" onclick="closeMediaModal()">×</div>
-    </div>
-
-    <script>
-        // VARIABLES GLOBALES
-        const mediaElements = [];
-        let currentMediaIndex = 0;
-
-        // INICIALIZAR GALERÍA
-        function initGallery() {
-            const galleryItems = document.querySelectorAll('.gallery-item');
-            
-            galleryItems.forEach(item => {
-                const img = item.querySelector('img');
-                const video = item.querySelector('video');
-                
-                if (img) {
-                    mediaElements.push({
-                        type: 'image',
-                        src: img.src,
-                        element: item
-                    });
-                }
-                
-                if (video) {
-                    const source = video.querySelector('source');
-                    if (source) {
-                        mediaElements.push({
-                            type: 'video',
-                            src: source.src,
-                            element: item
-                        });
-                    }
-                }
+        if (img) {
+            elementos.push({
+                tipo: 'foto',
+                src: img.src
             });
         }
-
-        // ABRIR MODAL
-        function openMediaModal(src, type) {
-            const modal = document.getElementById('mediaModal');
-            const modalImage = document.getElementById('modalImage');
-            const modalVideo = document.getElementById('modalVideo');
-            
-            currentMediaIndex = mediaElements.findIndex(item => item.src === src);
-            
-            if (currentMediaIndex === -1) return;
-            
-            if (type === 'image') {
-                modalImage.src = src;
-                modalImage.style.display = 'block';
-                modalVideo.style.display = 'none';
-            } else {
-                modalVideo.src = src;
-                modalVideo.style.display = 'block';
-                modalImage.style.display = 'none';
-                modalVideo.play();
-            }
-            
-            modal.style.display = 'flex';
-            document.body.style.overflow = 'hidden';
-        }
-
-        // NAVEGACIÓN
-        function navigateMedia(direction) {
-            currentMediaIndex += direction;
-            
-            // Navegación circular
-            if (currentMediaIndex < 0) currentMediaIndex = mediaElements.length - 1;
-            if (currentMediaIndex >= mediaElements.length) currentMediaIndex = 0;
-            
-            const media = mediaElements[currentMediaIndex];
-            const modalImage = document.getElementById('modalImage');
-            const modalVideo = document.getElementById('modalVideo');
-            
-            if (media.type === 'image') {
-                modalImage.src = media.src;
-                modalImage.style.display = 'block';
-                modalVideo.style.display = 'none';
-                modalVideo.pause();
-            } else {
-                modalVideo.src = media.src;
-                modalVideo.style.display = 'block';
-                modalImage.style.display = 'none';
-                modalVideo.play();
-            }
-        }
-
-        // CERRAR MODAL
-        function closeMediaModal() {
-            const modal = document.getElementById('mediaModal');
-            const modalVideo = document.getElementById('modalVideo');
-            
-            modalVideo.pause();
-            modal.style.display = 'none';
-            document.body.style.overflow = 'auto';
-        }
-
-        // TECLADO
-        document.addEventListener('keydown', (e) => {
-            const modal = document.getElementById('mediaModal');
-            if (modal.style.display === 'flex') {
-                if (e.key === 'ArrowLeft') navigateMedia(-1);
-                if (e.key === 'ArrowRight') navigateMedia(1);
-                if (e.key === 'Escape') closeMediaModal();
-            }
-        });
-
-        // INICIAR CUANDO LA PÁGINA CARGA
-        window.addEventListener('load', () => {
-            initGallery();
-            
-            // Precargar imágenes para mejor rendimiento
-            mediaElements.forEach(media => {
-                if (media.type === 'image') {
-                    const img = new Image();
-                    img.src = media.src;
-                }
+        
+        if (video) {
+            elementos.push({
+                tipo: 'video',
+                src: video.querySelector('source').src
             });
-        });
-    </script>
+        }
+    });
+};
+
+// 3. ABRIR MODAL
+function abrirModal(src, tipo) {
+    indiceActual = elementos.findIndex(item => item.src === src);
+    
+    const modal = document.getElementById('modal');
+    const modalFoto = document.getElementById('modal-foto');
+    const modalVideo = document.getElementById('modal-video');
+    
+    if (tipo === 'foto') {
+        modalFoto.src = src;
+        modalFoto.style.display = 'block';
+        modalVideo.style.display = 'none';
+    } else {
+        modalVideo.src = src;
+        modalVideo.style.display = 'block';
+        modalFoto.style.display = 'none';
+        modalVideo.play();
+    }
+    
+    modal.style.display = 'flex';
+}
+
+// 4. NAVEGACIÓN
+function cambiarItem(direccion) {
+    indiceActual += direccion;
+    
+    // Navegación circular
+    if (indiceActual < 0) indiceActual = elementos.length - 1;
+    if (indiceActual >= elementos.length) indiceActual = 0;
+    
+    const elemento = elementos[indiceActual];
+    const modalFoto = document.getElementById('modal-foto');
+    const modalVideo = document.getElementById('modal-video');
+    
+    if (elemento.tipo === 'foto') {
+        modalFoto.src = elemento.src;
+        modalFoto.style.display = 'block';
+        modalVideo.style.display = 'none';
+        modalVideo.pause();
+    } else {
+        modalVideo.src = elemento.src;
+        modalVideo.style.display = 'block';
+        modalFoto.style.display = 'none';
+        modalVideo.play();
+    }
+}
+
+// 5. CERRAR MODAL
+function cerrarModal() {
+    document.getElementById('modal').style.display = 'none';
+    document.getElementById('modal-video').pause();
+}
+
+// 6. TECLADO (flechas izquierda/derecha y ESC para cerrar)
+document.addEventListener('keydown', function(e) {
+    const modal = document.getElementById('modal');
+    if (modal.style.display === 'flex') {
+        if (e.key === 'ArrowLeft') cambiarItem(-1);
+        if (e.key === 'ArrowRight') cambiarItem(1);
+        if (e.key === 'Escape') cerrarModal();
+    }
+});
+</script>
+
 </body>
 </html>
