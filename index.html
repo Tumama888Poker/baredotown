@@ -3,229 +3,58 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>BAREDO TOWN</title>
-    <link href="https://fonts.googleapis.com/css2?family=Lobster&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <title>BAREDO TOWN - Galería</title>
     <style>
+        /* ESTILOS GENERALES */
         body {
             margin: 0;
             padding: 0;
-            font-family: 'Arial', sans-serif;
-            background-color: #000;
+            font-family: Arial, sans-serif;
+            background-color: #111;
             color: white;
-            overflow-x: hidden;
-            cursor: none;
         }
 
-        html {
-            scroll-behavior: smooth;
-        }
-
-        ::-webkit-scrollbar {
-            width: 6px;
-        }
-
-        ::-webkit-scrollbar-thumb {
-            background-color: rgba(255, 215, 0, 0.5);
-            border-radius: 3px;
-        }
-
-        ::-webkit-scrollbar-track {
-            background-color: rgba(0, 0, 0, 0.1);
-        }
-
-        .mouse-circle {
-            position: absolute;
-            width: 40px;
-            height: 40px;
-            border: 2px solid rgba(255, 215, 0, 0.5);
-            border-radius: 50%;
-            pointer-events: none;
-            transform: translate(-50%, -50%);
-            transition: transform 0.2s ease-out, opacity 0.2s ease-out;
-            opacity: 0.8;
-            z-index: 1001;
-        }
-
-        @media (pointer: coarse) {
-            .mouse-circle {
-                display: none;
-            }
-        }
-
-        header {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            background-color: rgba(0, 0, 0, 0.8);
-            z-index: 1000;
-            padding: 10px 20px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            animation: fadeInDown 1s ease-out;
-        }
-
-        header .logo {
-            font-family: 'Lobster', cursive;
-            font-size: 2rem;
-            color: #FFD700;
-            cursor: pointer;
-            transition: transform 0.3s ease;
-        }
-
-        header .logo:hover {
-            transform: scale(1.1);
-        }
-
-        header nav ul {
-            list-style: none;
-            margin: 0;
-            padding: 0;
-            display: flex;
-            justify-content: flex-end;
-        }
-
-        header nav ul li {
-            margin-left: 20px;
-        }
-
-        header nav ul li a {
-            color: white;
-            text-decoration: none;
-            font-size: 1rem;
-            transition: color 0.3s ease, transform 0.3s ease;
-        }
-
-        header nav ul li a:hover {
-            color: #FFD700;
-            transform: translateY(-3px);
-        }
-
-        .hero {
-            height: 100vh;
-            position: relative;
-            overflow: hidden;
-            animation: fadeIn 1.5s ease-out;
-        }
-
-        .carousel {
-            display: flex;
-            width: 100%;
-            height: 100%;
-            position: relative;
-        }
-
-        .carousel img {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-            position: absolute;
-            top: 0;
-            left: 0;
-            opacity: 0;
-            transition: opacity 1s ease-in-out;
-        }
-
-        .carousel img.active {
-            opacity: 1;
-        }
-
-        .carousel-dots {
-            position: absolute;
-            top: 50%;
-            right: 20px;
-            transform: translateY(-50%);
-            display: flex;
-            flex-direction: column;
-            gap: 10px;
-            z-index: 10;
-        }
-
-        .carousel-dot {
-            width: 10px;
-            height: 10px;
-            background-color: rgba(255, 255, 255, 0.3);
-            border: 2px solid #FFD700;
-            border-radius: 50%;
-            cursor: pointer;
-            position: relative;
-            overflow: hidden;
-            transition: transform 0.3s ease, background-color 0.3s ease;
-        }
-
-        .carousel-dot::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background-color: #FFD700;
-            border-radius: 50%;
-            transform: scale(0);
-            transition: transform 5s linear;
-        }
-
-        .carousel-dot.active::before {
-            transform: scale(1);
-        }
-
-        .carousel-dot:hover {
-            transform: scale(1.2);
-            background-color: rgba(255, 215, 0, 0.5);
-        }
-
-        .section {
-            padding: 80px 20px;
-            text-align: center;
-            animation: smoothScroll 0.8s ease-out;
-        }
-
-        .section h2 {
-            font-family: 'Lobster', cursive;
-            font-size: 3rem;
-            color: #FFD700;
-            margin-bottom: 20px;
-            animation: fadeIn 1.5s ease-out;
-        }
-
-        .section p {
-            font-size: 1.2rem;
-            line-height: 1.6;
-            max-width: 800px;
+        /* GALERÍA */
+        .gallery-container {
+            padding: 20px;
+            max-width: 1200px;
             margin: 0 auto;
-            animation: fadeIn 2s ease-out;
+        }
+
+        .gallery-title {
+            text-align: center;
+            margin-bottom: 30px;
+            font-size: 2.5rem;
+            color: #FFD700;
         }
 
         .gallery {
-            display: flex;
-            flex-wrap: wrap;
-            justify-content: center;
-            gap: 10px;
-            padding: 20px;
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+            gap: 15px;
+            padding: 15px;
         }
 
-        .gallery img, .gallery video {
-            width: 150px;
-            height: 150px;
+        .gallery-item {
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.3);
+            transition: transform 0.3s;
+            height: 200px;
+        }
+
+        .gallery-item:hover {
+            transform: scale(1.03);
+        }
+
+        .gallery-item img, .gallery-item video {
+            width: 100%;
+            height: 100%;
             object-fit: cover;
-            border-radius: 10px;
-            transition: transform 0.3s ease, box-shadow 0.3s ease;
             cursor: pointer;
         }
 
-        .gallery video {
-            background-color: #000;
-            display: block;
-        }
-
-        .gallery img:hover, .gallery video:hover {
-            transform: scale(1.1);
-            box-shadow: 0 0 20px rgba(255, 215, 0, 0.7);
-        }
-
+        /* MODAL */
         .modal {
             display: none;
             position: fixed;
@@ -233,518 +62,203 @@
             left: 0;
             width: 100%;
             height: 100%;
-            background-color: rgba(0, 0, 0, 0.9);
+            background-color: rgba(0,0,0,0.9);
             z-index: 1000;
-            justify-content: center;
             align-items: center;
-            animation: fadeIn 0.5s ease-out;
-        }
-
-        .modal.fade-out {
-            animation: fadeOut 0.5s ease-out;
+            justify-content: center;
         }
 
         .modal-content {
             max-width: 90%;
             max-height: 90%;
-            border-radius: 10px;
-            cursor: pointer;
-            animation: zoomIn 0.5s ease-out;
+            border-radius: 8px;
+            box-shadow: 0 0 20px rgba(255,215,0,0.3);
         }
 
-        .modal video {
-            max-width: 100%;
-            max-height: 100%;
-            cursor: pointer;
-        }
-
-        .close-modal {
+        /* FLECHAS DE NAVEGACIÓN */
+        .modal-nav {
             position: absolute;
-            top: 20px;
-            right: 20px;
-            color: white;
-            font-size: 2rem;
-            cursor: pointer;
-            transition: color 0.3s ease;
-        }
-
-        .close-modal:hover {
-            color: #FFD700;
-        }
-
-        /* === NUEVOS ESTILOS PARA FLECHAS === */
-        .modal-nav-arrows {
-            position: fixed;
-            top: 50%;
-            left: 0;
-            right: 0;
+            width: 100%;
             display: flex;
             justify-content: space-between;
+            top: 50%;
             transform: translateY(-50%);
-            z-index: 1002;
+            padding: 0 20px;
+            box-sizing: border-box;
             pointer-events: none;
         }
 
         .modal-arrow {
             color: white;
-            font-size: 3rem;
+            font-size: 2.5rem;
             cursor: pointer;
-            background-color: rgba(0, 0, 0, 0.5);
-            width: 50px;
-            height: 50px;
+            background: rgba(0,0,0,0.5);
+            width: 60px;
+            height: 60px;
             display: flex;
             align-items: center;
             justify-content: center;
             border-radius: 50%;
-            margin: 0 20px;
-            transition: all 0.3s ease;
+            transition: all 0.3s;
             pointer-events: all;
         }
 
         .modal-arrow:hover {
-            background-color: rgba(255, 215, 0, 0.7);
-            transform: scale(1.2);
+            background: rgba(255,215,0,0.7);
+            transform: scale(1.1);
         }
 
-        @media (max-width: 768px) {
-            .modal-arrow {
-                font-size: 2rem;
-                width: 40px;
-                height: 40px;
-            }
-        }
-
-        footer {
-            background-color: rgba(0, 0, 0, 0.8);
-            padding: 20px;
-            text-align: center;
-            font-size: 0.9rem;
+        /* BOTÓN CERRAR */
+        .close-modal {
+            position: absolute;
+            top: 30px;
+            right: 30px;
             color: white;
-            animation: fadeInUp 1s ease-out;
-        }
-
-        footer .rights {
-            background-color: rgba(255, 255, 255, 0.1);
-            padding: 10px 20px;
-            border-radius: 10px;
-            display: inline-block;
-        }
-
-        .age-verification {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background-color: rgba(0, 0, 0, 0.7);
+            font-size: 2rem;
+            cursor: pointer;
+            background: rgba(0,0,0,0.5);
+            width: 50px;
+            height: 50px;
             display: flex;
             align-items: center;
             justify-content: center;
-            flex-direction: column;
-            color: white;
-            z-index: 1000;
-            animation: fadeIn 1s ease-out;
-        }
-
-        .age-verification video {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-            z-index: -1;
-        }
-
-        .age-verification h2 {
-            font-size: 2.5rem;
-            margin-bottom: 20px;
-            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
-        }
-
-        .age-verification button {
-            padding: 15px 30px;
-            font-size: 1.2rem;
-            background-color: #FFD700;
-            border: none;
-            border-radius: 50px;
-            color: black;
-            cursor: pointer;
-            transition: background 0.3s ease;
-            margin: 10px;
-        }
-
-        .age-verification button:hover {
-            background-color: #FFCC00;
-        }
-
-        .mock-message {
-            font-size: 2rem;
-            font-weight: bold;
-            color: #ff6f61;
-            margin-top: 20px;
-            animation: bounce 2s infinite;
-        }
-
-        .age-popup {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background-color: rgba(0, 0, 0, 0.9);
-            display: none;
-            justify-content: center;
-            align-items: center;
-            z-index: 1001;
-            animation: fadeIn 0.5s ease-out;
-        }
-
-        .age-popup h2 {
-            font-size: 3rem;
-            color: #FFD700;
-            text-align: center;
-            animation: pulse 2s infinite;
-        }
-
-        .back-to-top {
-            position: fixed;
-            bottom: 20px;
-            right: 20px;
-            background-color: #FFD700;
-            color: black;
-            border: none;
             border-radius: 50%;
-            width: 50px;
-            height: 50px;
-            font-size: 1.5rem;
-            cursor: pointer;
-            display: none;
-            transition: background-color 0.3s ease;
-            animation: pulse 2s infinite;
+            transition: all 0.3s;
         }
 
-        .back-to-top:hover {
-            background-color: #FFCC00;
+        .close-modal:hover {
+            background: rgba(255,0,0,0.7);
         }
 
-        .testimonials {
-            background: linear-gradient(45deg, #1a1a1a, #000);
-            padding: 80px 20px;
-            text-align: center;
-        }
-
-        .testimonials h2 {
-            font-family: 'Lobster', cursive;
-            font-size: 3rem;
-            color: #FFD700;
-            margin-bottom: 40px;
-            animation: fadeIn 1.5s ease-out;
-        }
-
-        .testimonial-card {
-            background-color: rgba(255, 215, 0, 0.1);
-            border: 1px solid rgba(255, 215, 0, 0.3);
-            border-radius: 10px;
-            padding: 20px;
-            margin: 20px auto;
-            max-width: 600px;
-            animation: fadeInUp 1s ease-out;
-        }
-
-        .testimonial-card p {
-            font-size: 1.1rem;
-            line-height: 1.6;
-        }
-
-        .testimonial-card span {
-            display: block;
-            margin-top: 10px;
-            font-weight: bold;
-            color: #FFD700;
-        }
-
-        @keyframes fadeIn {
-            from { opacity: 0; }
-            to { opacity: 1; }
-        }
-
-        @keyframes fadeOut {
-            from { opacity: 1; }
-            to { opacity: 0; }
-        }
-
-        @keyframes fadeInDown {
-            from {
-                opacity: 0;
-                transform: translateY(-20px);
+        /* RESPONSIVE */
+        @media (max-width: 768px) {
+            .gallery {
+                grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
             }
-            to {
-                opacity: 1;
-                transform: translateY(0);
+            
+            .gallery-item {
+                height: 150px;
             }
-        }
-
-        @keyframes fadeInUp {
-            from {
-                opacity: 0;
-                transform: translateY(20px);
-            }
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
-        }
-
-        @keyframes zoomIn {
-            from {
-                transform: scale(0.8);
-                opacity: 0;
-            }
-            to {
-                transform: scale(1);
-                opacity: 1;
-            }
-        }
-
-        @keyframes smoothScroll {
-            from {
-                transform: translateY(20px);
-                opacity: 0;
-            }
-            to {
-                transform: translateY(0);
-                opacity: 1;
-            }
-        }
-
-        @keyframes bounce {
-            0%, 20%, 50%, 80%, 100% {
-                transform: translateY(0);
-            }
-            40% {
-                transform: translateY(-20px);
-            }
-            60% {
-                transform: translateY(-10px);
-            }
-        }
-
-        @keyframes pulse {
-            0% {
-                transform: scale(1);
-            }
-            50% {
-                transform: scale(1.1);
-            }
-            100% {
-                transform: scale(1);
+            
+            .modal-arrow {
+                width: 40px;
+                height: 40px;
+                font-size: 1.8rem;
             }
         }
     </style>
 </head>
 <body>
-    <div id="mouseCircle" class="mouse-circle"></div>
-
-    <div id="ageVerification" class="age-verification">
-        <video autoplay muted loop>
-            <source src="media/videode.mp4" type="video/mp4">
-            Tu navegador no soporta videos.
-        </video>
-        <h2>¿Eres mayor de edad?</h2>
-        <button onclick="verifyAge(true)">Sí</button>
-        <button onclick="verifyAge(false)">No</button>
-    </div>
-
-    <div id="agePopup" class="age-popup">
-        <h2>¡Dale a que sí! 😏</h2>
-    </div>
-
-    <div id="mockMessage" class="mock-message" style="display: none;">
-        XDLOL
-    </div>
-
-    <div id="mainContent" style="display: none;">
-        <header>
-            <div class="logo" onclick="scrollToTop()">BAREDO TOWN</div>
-            <nav>
-                <ul>
-                    <li><a href="#about" onclick="scrollToSection('about')">Acerca de</a></li>
-                    <li><a href="#services" onclick="scrollToSection('services')">Nuestros servicios</a></li>
-                    <li><a href="#gallery" onclick="scrollToSection('gallery')">Galería</a></li>
-                    <li><a href="#testimonials" onclick="scrollToSection('testimonials')">Testimonios</a></li>
-                    <li><a href="#contact" onclick="scrollToSection('contact')">Contacto</a></li>
-                </ul>
-            </nav>
-        </header>
-
-        <section class="hero">
-            <div class="carousel" id="carousel">
-                <img src="media/gta-background.jpg" alt="GTA Background" class="active">
+    <!-- GALERÍA PRINCIPAL -->
+    <div class="gallery-container">
+        <h1 class="gallery-title">Galería BAREDO TOWN</h1>
+        
+        <div class="gallery">
+            <!-- EJEMPLO DE FOTOS - REEMPLAZA CON TUS IMÁGENES -->
+            <div class="gallery-item" onclick="openMediaModal('media/foto1.jpg', 'image')">
                 <img src="media/foto1.jpg" alt="Foto 1">
+            </div>
+            <div class="gallery-item" onclick="openMediaModal('media/foto2.jpg', 'image')">
                 <img src="media/foto2.jpg" alt="Foto 2">
             </div>
-            <div class="carousel-dots" id="carouselDots"></div>
-        </section>
-
-        <section id="about" class="section">
-            <h2>Acerca de BAREDO TOWN</h2>
-            <p>Bienvenido a BAREDO TOWN, el lugar donde las aventuras y la diversión se encuentran. Disfruta de nuestras experiencias únicas, productos y servicios en un entorno lleno de emoción. Mantente conectado y explora lo que tenemos para ofrecer.</p>
-        </section>
-
-        <section id="services" class="section">
-            <h2>Nuestros Servicios</h2>
-            <p>En <strong>BAREDO TOWN</strong>, ofrecemos servicios de <strong>inseminación artificial</strong> de la más alta calidad. Nuestro equipo de expertos garantiza un proceso seguro, eficiente y personalizado para satisfacer tus necesidades. Confía en nosotros para hacer realidad tus sueños.</p>
-        </section>
-
-        <section id="gallery" class="section">
-            <h2>Galería</h2>
-            <h3>Fotos</h3>
-            <div class="gallery">
-                <script>
-                    for (let i = 1; i <= 37; i++) {
-                        document.write(`<img src="media/A (${i}).jpg" alt="Foto ${i}" onclick="openMedia('media/A (${i}).jpg', 'image')">`);
-                    }
-                </script>
+            
+            <!-- EJEMPLO DE VIDEOS - REEMPLAZA CON TUS VIDEOS -->
+            <div class="gallery-item" onclick="openMediaModal('media/video1.mp4', 'video')">
+                <video muted loop>
+                    <source src="media/video1.mp4" type="video/mp4">
+                </video>
             </div>
-            <h3>Videos</h3>
-            <div class="gallery">
-                <script>
-                    for (let i = 1; i <= 14; i++) {
-                        document.write(`
-                            <video muted loop onclick="openMedia('media/Q (${i}).mp4', 'video')">
-                                <source src="media/Q (${i}).mp4" type="video/mp4">
-                            </video>
-                        `);
-                    }
-                </script>
+            <div class="gallery-item" onclick="openMediaModal('media/video2.mp4', 'video')">
+                <video muted loop>
+                    <source src="media/video2.mp4" type="video/mp4">
+                </video>
             </div>
-        </section>
-
-        <section id="testimonials" class="testimonials">
-            <h2>Testimonios</h2>
-            <div class="testimonial-card">
-                <p>"Me gusta mucho las mujeres que hay, pero sin duda me quedo con... ¡las fiestas de BAREDO TOWN!"</p>
-                <span>- Diego Guede</span>
-            </div>
-            <div class="testimonial-card">
-                <p>"Gran lugar para noquear y dejar ojos morados. ¡Firu lo aprueba!"</p>
-                <span>- Firu</span>
-            </div>
-            <div class="testimonial-card">
-                <p>"Sin duda las mejores fiestas. ¡Pentateuco siempre está presente!"</p>
-                <span>- Pentateuco</span>
-            </div>
-            <div class="testimonial-card">
-                <p>"Gran lugar para echarse unos puros con los colegas. ¡Karim lo recomienda!"</p>
-                <span>- Karim</span>
-            </div>
-        </section>
-
-        <section id="contact" class="section">
-            <h2>INFO DE CONTACTO</h2>
-            <p><strong>NUMERO:</strong> 621085020</p>
-            <p><strong>FAX:</strong> 900-555-123</p>
-            <p><strong>MAIL:</strong> soyguapoygay18@gmail.com</p>
-            <p>Si quieres llamarme, bebe, ¡no dudes en hacerlo! Estaré esperando tu mensaje sexy 😘</p>
-        </section>
-
-        <footer>
-            <div class="rights">
-                &copy; 2025 BAREDO TOWN. Todos los derechos reservados.
-            </div>
-        </footer>
-
-        <button id="backToTop" class="back-to-top" onclick="scrollToTop()">&#8679;</button>
+            
+            <!-- Añade más elementos según necesites -->
+        </div>
     </div>
 
-    <!-- MODAL CON FLECHAS DE NAVEGACIÓN -->
-    <div id="modal" class="modal">
-        <span class="close-modal" onclick="closeModal()">&times;</span>
-        <div class="modal-nav-arrows">
+    <!-- MODAL -->
+    <div id="mediaModal" class="modal">
+        <div class="modal-nav">
             <div class="modal-arrow" onclick="navigateMedia(-1)">❮</div>
             <div class="modal-arrow" onclick="navigateMedia(1)">❯</div>
         </div>
-        <img id="modal-image" class="modal-content">
-        <video id="modal-video" class="modal-content" controls></video>
+        <img id="modalImage" class="modal-content" style="display:none;">
+        <video id="modalVideo" class="modal-content" controls style="display:none;"></video>
+        <div class="close-modal" onclick="closeMediaModal()">×</div>
     </div>
 
     <script>
-        // ===== VARIABLES GLOBALES PARA LA GALERÍA =====
+        // VARIABLES GLOBALES
+        const mediaElements = [];
         let currentMediaIndex = 0;
-        const mediaItems = [];
-        let carouselTimer;
 
-        // ===== FUNCIONES DE LA GALERÍA CON FLECHAS =====
+        // INICIALIZAR GALERÍA
         function initGallery() {
-            // Limpiar array existente
-            mediaItems.length = 0;
+            const galleryItems = document.querySelectorAll('.gallery-item');
             
-            // Obtener todas las imágenes y videos
-            const images = document.querySelectorAll('.gallery img');
-            const videos = document.querySelectorAll('.gallery video');
-            
-            // Agregar imágenes al array
-            images.forEach(img => {
-                mediaItems.push({
-                    type: 'image',
-                    src: img.src,
-                    element: img
-                });
-            });
-            
-            // Agregar videos al array
-            videos.forEach(video => {
-                mediaItems.push({
-                    type: 'video',
-                    src: video.querySelector('source').src,
-                    element: video
-                });
+            galleryItems.forEach(item => {
+                const img = item.querySelector('img');
+                const video = item.querySelector('video');
+                
+                if (img) {
+                    mediaElements.push({
+                        type: 'image',
+                        src: img.src,
+                        element: item
+                    });
+                }
+                
+                if (video) {
+                    const source = video.querySelector('source');
+                    if (source) {
+                        mediaElements.push({
+                            type: 'video',
+                            src: source.src,
+                            element: item
+                        });
+                    }
+                }
             });
         }
 
-        function openMedia(src, type) {
-            const modal = document.getElementById('modal');
-            const modalImage = document.getElementById('modal-image');
-            const modalVideo = document.getElementById('modal-video');
+        // ABRIR MODAL
+        function openMediaModal(src, type) {
+            const modal = document.getElementById('mediaModal');
+            const modalImage = document.getElementById('modalImage');
+            const modalVideo = document.getElementById('modalVideo');
             
-            // Encontrar el índice del elemento clickeado
-            currentMediaIndex = mediaItems.findIndex(item => item.src === src);
+            currentMediaIndex = mediaElements.findIndex(item => item.src === src);
             
             if (currentMediaIndex === -1) return;
-
-            // Mostrar el elemento correspondiente
+            
             if (type === 'image') {
                 modalImage.src = src;
                 modalImage.style.display = 'block';
                 modalVideo.style.display = 'none';
-                modalVideo.pause();
             } else {
                 modalVideo.src = src;
                 modalVideo.style.display = 'block';
-                modalVideo.play();
                 modalImage.style.display = 'none';
+                modalVideo.play();
             }
             
             modal.style.display = 'flex';
-            
-            // Pausar el carrusel al abrir el modal
-            pauseCarousel();
+            document.body.style.overflow = 'hidden';
         }
 
+        // NAVEGACIÓN
         function navigateMedia(direction) {
             currentMediaIndex += direction;
             
             // Navegación circular
-            if (currentMediaIndex < 0) {
-                currentMediaIndex = mediaItems.length - 1;
-            } else if (currentMediaIndex >= mediaItems.length) {
-                currentMediaIndex = 0;
-            }
+            if (currentMediaIndex < 0) currentMediaIndex = mediaElements.length - 1;
+            if (currentMediaIndex >= mediaElements.length) currentMediaIndex = 0;
             
-            const media = mediaItems[currentMediaIndex];
-            const modalImage = document.getElementById('modal-image');
-            const modalVideo = document.getElementById('modal-video');
+            const media = mediaElements[currentMediaIndex];
+            const modalImage = document.getElementById('modalImage');
+            const modalVideo = document.getElementById('modalVideo');
             
             if (media.type === 'image') {
                 modalImage.src = media.src;
@@ -754,177 +268,42 @@
             } else {
                 modalVideo.src = media.src;
                 modalVideo.style.display = 'block';
-                modalVideo.play();
                 modalImage.style.display = 'none';
+                modalVideo.play();
             }
         }
 
-        function closeModal() {
-            const modal = document.getElementById('modal');
-            const modalVideo = document.getElementById('modal-video');
+        // CERRAR MODAL
+        function closeMediaModal() {
+            const modal = document.getElementById('mediaModal');
+            const modalVideo = document.getElementById('modalVideo');
             
             modalVideo.pause();
-            modal.classList.add('fade-out');
-            
-            setTimeout(() => {
-                modal.style.display = 'none';
-                modal.classList.remove('fade-out');
-                
-                // Reanudar el carrusel al cerrar el modal
-                resumeCarousel();
-            }, 500);
+            modal.style.display = 'none';
+            document.body.style.overflow = 'auto';
         }
 
-        // ===== FUNCIONES DEL CARRUSEL =====
-        let currentSlideIndex = 0;
-        
-        function initCarousel() {
-            const slides = document.querySelectorAll('.carousel img');
-            const dotsContainer = document.getElementById('carouselDots');
-            
-            // Crear puntos de navegación
-            slides.forEach((_, index) => {
-                const dot = document.createElement('div');
-                dot.classList.add('carousel-dot');
-                dot.addEventListener('click', () => goToSlide(index));
-                dotsContainer.appendChild(dot);
-            });
-            
-            // Mostrar primera slide
-            showSlide(currentSlideIndex);
-            startCarousel();
-        }
-        
-        function showSlide(index) {
-            const slides = document.querySelectorAll('.carousel img');
-            const dots = document.querySelectorAll('.carousel-dot');
-            
-            slides.forEach(slide => slide.classList.remove('active'));
-            dots.forEach(dot => dot.classList.remove('active'));
-            
-            slides[index].classList.add('active');
-            dots[index].classList.add('active');
-        }
-        
-        function goToSlide(index) {
-            currentSlideIndex = index;
-            showSlide(currentSlideIndex);
-            resetCarouselTimer();
-        }
-        
-        function nextSlide() {
-            const slides = document.querySelectorAll('.carousel img');
-            currentSlideIndex = (currentSlideIndex + 1) % slides.length;
-            showSlide(currentSlideIndex);
-        }
-        
-        function startCarousel() {
-            carouselTimer = setInterval(nextSlide, 5000);
-        }
-        
-        function pauseCarousel() {
-            clearInterval(carouselTimer);
-        }
-        
-        function resumeCarousel() {
-            resetCarouselTimer();
-        }
-        
-        function resetCarouselTimer() {
-            clearInterval(carouselTimer);
-            startCarousel();
-        }
-
-        // ===== FUNCIONES GENERALES =====
-        function verifyAge(isAdult) {
-            const ageVerification = document.getElementById('ageVerification');
-            const mainContent = document.getElementById('mainContent');
-            const agePopup = document.getElementById('agePopup');
-
-            if (isAdult) {
-                ageVerification.style.display = 'none';
-                mainContent.style.display = 'block';
-                initCarousel();
-                initGallery();
-            } else {
-                agePopup.style.display = 'flex';
-                setTimeout(() => {
-                    agePopup.style.display = 'none';
-                }, 3000);
-            }
-        }
-
-        function scrollToSection(sectionId) {
-            const section = document.getElementById(sectionId);
-            if (section) {
-                section.scrollIntoView({
-                    behavior: 'smooth',
-                    block: 'start'
-                });
-            }
-        }
-
-        function scrollToTop() {
-            window.scrollTo({ top: 0, behavior: 'smooth' });
-        }
-
-        // Mostrar/ocultar botón "Volver arriba"
-        window.addEventListener('scroll', () => {
-            const backToTop = document.getElementById('backToTop');
-            if (window.scrollY > 300) {
-                backToTop.style.display = 'block';
-            } else {
-                backToTop.style.display = 'none';
-            }
-        });
-
-        // Detectar dispositivo móvil
-        function isMobileDevice() {
-            return /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
-        }
-
-        // Inicializar cursor personalizado
-        window.onload = function() {
-            const mouseCircle = document.getElementById('mouseCircle');
-            if (isMobileDevice()) {
-                mouseCircle.style.display = 'none';
-            } else {
-                mouseCircle.style.display = 'block';
-            }
-        };
-
-        // Seguir movimiento del mouse
-        let mouseX = 0, mouseY = 0;
-        let circleX = 0, circleY = 0;
-
-        document.addEventListener('mousemove', (e) => {
-            mouseX = e.pageX;
-            mouseY = e.pageY;
-        });
-
-        function followMouse() {
-            const delay = 0.2;
-            circleX += (mouseX - circleX) * delay;
-            circleY += (mouseY - circleY) * delay;
-            mouseCircle.style.left = `${circleX}px`;
-            mouseCircle.style.top = `${circleY}px`;
-            requestAnimationFrame(followMouse);
-        }
-
-        followMouse();
-
-        // Event listeners para teclado (opcional)
+        // TECLADO
         document.addEventListener('keydown', (e) => {
-            const modal = document.getElementById('modal');
+            const modal = document.getElementById('mediaModal');
             if (modal.style.display === 'flex') {
-                if (e.key === 'ArrowLeft') {
-                    navigateMedia(-1);
-                } else if (e.key === 'ArrowRight') {
-                    navigateMedia(1);
-                } else if (e.key === 'Escape') {
-                    closeModal();
-                }
+                if (e.key === 'ArrowLeft') navigateMedia(-1);
+                if (e.key === 'ArrowRight') navigateMedia(1);
+                if (e.key === 'Escape') closeMediaModal();
             }
+        });
+
+        // INICIAR CUANDO LA PÁGINA CARGA
+        window.addEventListener('load', () => {
+            initGallery();
+            
+            // Precargar imágenes para mejor rendimiento
+            mediaElements.forEach(media => {
+                if (media.type === 'image') {
+                    const img = new Image();
+                    img.src = media.src;
+                }
+            });
         });
     </script>
 </body>
