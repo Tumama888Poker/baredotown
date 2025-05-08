@@ -126,20 +126,88 @@
             text-shadow: 1px 1px 2px #000;
         }
 
-        /* RESPONSIVE */
+        /* MODIFICACIONES PARA SECCIONES DE TEXTO EN MÓVIL */
         @media (max-width: 768px) {
-            body {
-                font-size: 16px;
+            /* Ajustes generales para secciones */
+            .section {
+                padding: 40px 15px;
+                scroll-margin-top: 60px;
             }
             
+            /* Títulos */
             .section h2 {
                 font-size: 2rem;
                 margin-bottom: 15px;
+                line-height: 1.3;
             }
             
+            /* Texto normal */
             .section p {
                 font-size: 1rem;
-                padding: 0 10px;
+                line-height: 1.6;
+                padding: 0 5px;
+            }
+            
+            /* Sección "Acerca de" específica */
+            #about .section {
+                padding-top: 60px;
+            }
+            
+            /* Sección de Contacto */
+            #contact .section {
+                text-align: center;
+            }
+            
+            #contact p {
+                margin: 15px 0;
+                font-size: 1.1rem;
+            }
+            
+            #contact p strong {
+                display: block;
+                margin-top: 10px;
+                color: #FFD700;
+            }
+            
+            /* Testimonios */
+            .testimonial-card {
+                padding: 15px;
+                margin: 15px auto;
+            }
+            
+            .testimonial-card p {
+                font-style: italic;
+                font-size: 0.95rem;
+            }
+            
+            .testimonial-card span {
+                display: block;
+                margin-top: 10px;
+                font-weight: bold;
+                color: #FFD700;
+            }
+        }
+
+        /* AJUSTES EXTRA PARA MÓVILES PEQUEÑOS */
+        @media (max-width: 480px) {
+            .section h2 {
+                font-size: 1.8rem;
+            }
+            
+            #contact p {
+                font-size: 1rem;
+            }
+            
+            .testimonial-card {
+                padding: 12px;
+                margin: 12px auto;
+            }
+        }
+
+        /* RESPONSIVE GENERAL */
+        @media (max-width: 768px) {
+            body {
+                font-size: 16px;
             }
             
             .gallery img, .video-container {
@@ -156,11 +224,6 @@
                 width: 40px;
                 height: 40px;
                 font-size: 1.2rem;
-            }
-            
-            .testimonial-card {
-                margin: 10px;
-                padding: 15px;
             }
             
             header .logo {
@@ -204,7 +267,7 @@
             }
             
             .section {
-                padding: 50px 10px;
+                padding: 30px 10px;
             }
         }
 
