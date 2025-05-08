@@ -605,7 +605,7 @@
     </style>
 </head>
 <body>
-    <!-- CURSOR VISIBLE (MEJORADO) -->
+    <!-- CURSOR VISIBLE (AHORA FUNCIONA EN TODAS LAS PANTALLAS) -->
     <div id="mouseCircle" class="mouse-circle"></div>
 
     <div id="ageVerification" class="age-verification">
@@ -742,7 +742,7 @@
     </div>
 
     <script>
-        // 1. SISTEMA DEL CURSOR (MEJORADO)
+        // 1. SISTEMA DEL CURSOR (INICIALIZADO AL CARGAR LA PÁGINA)
         const mouseCircle = document.getElementById('mouseCircle');
         let mouseX = window.innerWidth / 2, mouseY = window.innerHeight / 2;
         let circleX = mouseX, circleY = mouseY;
@@ -808,7 +808,7 @@
             });
         }
 
-        // 3. VERIFICACIÓN DE EDAD
+        // 3. VERIFICACIÓN DE EDAD (MODIFICADA)
         function verifyAge(isAdult) {
             const ageVerification = document.getElementById('ageVerification');
             const mainContent = document.getElementById('mainContent');
@@ -818,8 +818,6 @@
                 ageVerification.style.display = 'none';
                 mainContent.style.display = 'block';
                 document.body.style.overflow = 'auto';
-                
-                initCursor();
                 generateVideoThumbnails();
             } else {
                 agePopup.style.display = 'flex';
@@ -937,6 +935,9 @@
 
         // INICIALIZACIÓN
         document.addEventListener('DOMContentLoaded', function() {
+            // Inicializar el cursor inmediatamente
+            initCursor();
+            
             allMediaItems = [
                 ...photoSources.map(src => ({type: 'image', src})),
                 ...videoSources.map(src => ({type: 'video', src}))
