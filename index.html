@@ -17,20 +17,20 @@
             -webkit-tap-highlight-color: transparent;
         }
 
-        /* CURSOR PERSONALIZADO (FUNCIONAL) */
+        /* CURSOR PERSONALIZADO (MEJORADO) */
         .mouse-circle {
-            position: absolute;
+            position: fixed;
             width: 30px;
             height: 30px;
             border: 2px solid #FFD700;
             border-radius: 50%;
             pointer-events: none;
             transform: translate(-50%, -50%);
-            transition: transform 0.1s ease-out;
             z-index: 9999;
             background-color: rgba(255, 215, 0, 0.2);
             mix-blend-mode: difference;
             display: none;
+            transition: transform 0.05s ease-out;
         }
 
         @media (hover: hover) and (pointer: fine) {
@@ -605,7 +605,7 @@
     </style>
 </head>
 <body>
-    <!-- CURSOR VISIBLE (FUNCIONANDO) -->
+    <!-- CURSOR VISIBLE (MEJORADO) -->
     <div id="mouseCircle" class="mouse-circle"></div>
 
     <div id="ageVerification" class="age-verification">
@@ -742,10 +742,10 @@
     </div>
 
     <script>
-        // 1. SISTEMA DEL CURSOR (FUNCIONANDO)
+        // 1. SISTEMA DEL CURSOR (MEJORADO)
         const mouseCircle = document.getElementById('mouseCircle');
-        let mouseX = 0, mouseY = 0;
-        let circleX = 0, circleY = 0;
+        let mouseX = window.innerWidth / 2, mouseY = window.innerHeight / 2;
+        let circleX = mouseX, circleY = mouseY;
 
         function initCursor() {
             if (matchMedia('(hover: hover) and (pointer: fine)').matches) {
@@ -755,8 +755,10 @@
                 });
 
                 function animateCursor() {
-                    circleX = lerp(circleX, mouseX, 0.2);
-                    circleY = lerp(circleY, mouseY, 0.2);
+                    // Interpolación más rápida (0.5 en lugar de 0.2)
+                    circleX = lerp(circleX, mouseX, 0.5);
+                    circleY = lerp(circleY, mouseY, 0.5);
+                    
                     mouseCircle.style.left = `${circleX}px`;
                     mouseCircle.style.top = `${circleY}px`;
                     requestAnimationFrame(animateCursor);
@@ -766,6 +768,11 @@
                     return start * (1 - t) + end * t;
                 }
 
+                // Posicionar inicialmente el cursor
+                mouseCircle.style.left = `${mouseX}px`;
+                mouseCircle.style.top = `${mouseY}px`;
+                mouseCircle.style.display = 'block';
+                
                 animateCursor();
             }
         }
