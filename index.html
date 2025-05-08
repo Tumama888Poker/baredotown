@@ -15,6 +15,28 @@
             color: white;
             overflow-x: hidden;
             -webkit-tap-highlight-color: transparent;
+            cursor: none;
+        }
+
+        .mouse-circle {
+            position: absolute;
+            width: 30px;
+            height: 30px;
+            border: 2px solid #FFD700;
+            border-radius: 50%;
+            pointer-events: none;
+            transform: translate(-50%, -50%);
+            transition: transform 0.1s ease-out;
+            z-index: 1001;
+            background-color: rgba(255, 215, 0, 0.2);
+            mix-blend-mode: difference;
+            display: none;
+        }
+
+        @media (hover: hover) and (pointer: fine) {
+            .mouse-circle {
+                display: block;
+            }
         }
 
         html {
@@ -50,7 +72,7 @@
                 padding: 0 10px;
             }
             
-            .gallery img, .gallery video {
+            .gallery img, .video-container {
                 width: 100px !important;
                 height: 100px !important;
             }
@@ -78,6 +100,17 @@
             header nav ul li a {
                 font-size: 0.9rem !important;
             }
+
+            .video-title {
+                font-size: 0.7rem !important;
+                bottom: 5px !important;
+            }
+
+            .play-icon {
+                width: 40px !important;
+                height: 40px !important;
+                font-size: 1.2rem !important;
+            }
         }
 
         @media (max-width: 480px) {
@@ -95,7 +128,7 @@
                 margin: 0 8px !important;
             }
             
-            .gallery img, .gallery video {
+            .gallery img, .video-container {
                 width: 80px !important;
                 height: 80px !important;
             }
@@ -103,10 +136,6 @@
             .section {
                 padding: 50px 10px !important;
             }
-        }
-
-        .mouse-circle {
-            display: none; /* Ocultamos en móviles */
         }
 
         header {
@@ -166,7 +195,7 @@
             position: relative;
             overflow: hidden;
             animation: fadeIn 1.5s ease-out;
-            margin-top: 60px; /* Espacio para el header */
+            margin-top: 60px;
         }
 
         .carousel {
@@ -245,7 +274,7 @@
             padding: 20px;
         }
 
-        .gallery img, .gallery video {
+        .gallery img {
             width: 150px;
             height: 150px;
             object-fit: cover;
@@ -254,12 +283,77 @@
             cursor: pointer;
         }
 
-        .gallery video {
-            background-color: #000;
-            display: block;
+        .video-container {
+            position: relative;
+            width: 150px;
+            height: 150px;
+            border-radius: 10px;
+            overflow: hidden;
+            cursor: pointer;
+            background: linear-gradient(45deg, #ffd700, #ff9900);
+            box-shadow: 0 4px 8px rgba(0,0,0,0.3);
+            transition: all 0.3s ease;
         }
 
-        .gallery img:active, .gallery video:active {
+        .video-container video {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: opacity 0.3s ease;
+            position: relative;
+            z-index: 1;
+        }
+
+        .video-container::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(45deg, rgba(255,215,0,0.7), rgba(255,153,0,0.7));
+            z-index: 2;
+            opacity: 0.7;
+        }
+
+        .play-icon {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 50px;
+            height: 50px;
+            background-color: rgba(0,0,0,0.7);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+            color: #FFD700;
+            z-index: 3;
+            transition: all 0.3s ease;
+            border: 2px solid #FFD700;
+        }
+
+        .video-title {
+            position: absolute;
+            bottom: 10px;
+            left: 0;
+            width: 100%;
+            color: white;
+            font-size: 0.8rem;
+            text-align: center;
+            padding: 5px;
+            z-index: 3;
+            background: linear-gradient(to top, rgba(0,0,0,0.7), transparent);
+        }
+
+        .video-container:hover .play-icon {
+            transform: translate(-50%, -50%) scale(1.1);
+            background-color: rgba(0,0,0,0.9);
+        }
+
+        .gallery img:active, .video-container:active {
             transform: scale(0.95);
         }
 
@@ -432,7 +526,6 @@
             animation: fadeInUp 1s ease-out;
         }
 
-        /* Flechas de navegación mejoradas para móvil */
         .modal-nav {
             position: absolute;
             top: 50%;
@@ -470,7 +563,6 @@
             cursor: not-allowed;
         }
 
-        /* Swipe para móviles */
         .modal-content-container {
             position: relative;
             width: 100%;
@@ -549,6 +641,8 @@
     </style>
 </head>
 <body>
+    <div id="mouseCircle" class="mouse-circle"></div>
+
     <div id="ageVerification" class="age-verification">
         <video autoplay muted loop playsinline>
             <source src="media/videode.mp4" type="video/mp4">
@@ -611,11 +705,22 @@
             <h3>Videos</h3>
             <div class="gallery" id="videoGallery">
                 <script>
+                    const videoTitles = [
+                        "Fiesta VIP", "Noche de copas", "Afterhours", "Concierto privado",
+                        "Pool party", "DJ Session", "Celebración", "Evento especial",
+                        "Barra libre", "Champagne", "Baile", "Luz neón",
+                        "Cocteles", "Penthouse"
+                    ];
+                    
                     for (let i = 1; i <= 14; i++) {
                         document.write(`
-                            <video muted loop playsinline onclick="openModal('media/Q (${i}).mp4', 'video', ${i-1})">
-                                <source src="media/Q (${i}).mp4" type="video/mp4">
-                            </video>
+                            <div class="video-container" onclick="openModal('media/Q (${i}).mp4', 'video', ${i-1})">
+                                <video muted playsinline preload="metadata" id="video-${i}">
+                                    <source src="media/Q (${i}).mp4" type="video/mp4">
+                                </video>
+                                <div class="play-icon">▶</div>
+                                <div class="video-title">${videoTitles[i-1] || `Video ${i}`}</div>
+                            </div>
                         `);
                     }
                 </script>
@@ -681,6 +786,11 @@
         let touchStartX = 0;
         let touchEndX = 0;
 
+        // Sistema de seguimiento del cursor
+        const mouseCircle = document.getElementById('mouseCircle');
+        let mouseX = 0, mouseY = 0;
+        let circleX = 0, circleY = 0;
+
         // Verificación de edad
         function verifyAge(isAdult) {
             const ageVerification = document.getElementById('ageVerification');
@@ -691,12 +801,83 @@
                 ageVerification.style.display = 'none';
                 mainContent.style.display = 'block';
                 document.body.style.overflow = 'auto';
+                
+                // Iniciar seguimiento del cursor si no es móvil
+                if (!isTouchDevice()) {
+                    initCursor();
+                }
+                
+                // Generar miniaturas de videos
+                generateVideoThumbnails();
             } else {
                 agePopup.style.display = 'flex';
                 setTimeout(() => {
                     agePopup.style.display = 'none';
                 }, 3000);
             }
+        }
+
+        // Detectar dispositivos táctiles
+        function isTouchDevice() {
+            return 'ontouchstart' in window || 
+                   navigator.maxTouchPoints > 0 || 
+                   navigator.msMaxTouchPoints > 0;
+        }
+
+        // Inicializar cursor personalizado
+        function initCursor() {
+            document.addEventListener('mousemove', (e) => {
+                mouseX = e.pageX;
+                mouseY = e.pageY;
+            });
+
+            function followMouse() {
+                const delay = 0.1;
+                circleX += (mouseX - circleX) * delay;
+                circleY += (mouseY - circleY) * delay;
+                mouseCircle.style.left = `${circleX}px`;
+                mouseCircle.style.top = `${circleY}px`;
+                requestAnimationFrame(followMouse);
+            }
+
+            followMouse();
+        }
+
+        // Generar miniaturas de videos
+        function generateVideoThumbnails() {
+            const videoContainers = document.querySelectorAll('.video-container');
+            
+            videoContainers.forEach(container => {
+                const video = container.querySelector('video');
+                
+                video.addEventListener('loadedmetadata', function() {
+                    if (video.readyState >= 1) { // HAVE_ENOUGH_DATA
+                        setTimeout(() => {
+                            try {
+                                const canvas = document.createElement('canvas');
+                                canvas.width = video.videoWidth;
+                                canvas.height = video.videoHeight;
+                                const ctx = canvas.getContext('2d');
+                                ctx.drawImage(video, 0, 0, canvas.width, canvas.height);
+                                
+                                // Aplicar el frame como fondo del contenedor
+                                container.style.backgroundImage = `url(${canvas.toDataURL()})`;
+                                container.style.backgroundSize = 'cover';
+                                container.style.backgroundPosition = 'center';
+                                
+                                // Ocultar el elemento video (pero mantenerlo para el modal)
+                                video.style.opacity = '0';
+                            } catch (e) {
+                                console.error("Error generating thumbnail:", e);
+                                // Mantener el gradiente dorado como fallback
+                            }
+                        }, 100);
+                    }
+                });
+                
+                // Forzar la carga de metadata
+                video.load();
+            });
         }
 
         // Configuración del carrusel
@@ -751,8 +932,8 @@
         showSlide(currentIndex);
         resetTimer();
 
-        // Preparamos el array con todos los elementos de la galería
-        window.addEventListener('load', function() {
+        // Inicialización de la galería
+        document.addEventListener('DOMContentLoaded', function() {
             allMediaItems = [
                 ...photoSources.map(src => ({type: 'image', src})),
                 ...videoSources.map(src => ({type: 'video', src}))
@@ -773,13 +954,11 @@
         });
 
         function handleSwipe() {
-            const threshold = 50; // Mínimo desplazamiento para considerar swipe
+            const threshold = 50;
             
             if (touchStartX - touchEndX > threshold) {
-                // Swipe izquierda - siguiente
                 navigateMedia(1);
             } else if (touchEndX - touchStartX > threshold) {
-                // Swipe derecha - anterior
                 navigateMedia(-1);
             }
         }
@@ -789,7 +968,11 @@
             const modalContent = document.getElementById('modal-content');
             const modalVideo = document.getElementById('modal-video');
             
-            // Actualizamos las variables globales
+            // Pausar todos los videos en la galería
+            document.querySelectorAll('.video-container video').forEach(video => {
+                video.pause();
+            });
+
             currentMediaType = type;
             currentMediaIndex = type === 'video' ? photoSources.length + index : index;
             
@@ -798,7 +981,18 @@
             if (type === 'video') {
                 modalVideo.src = src;
                 modalVideo.style.display = 'block';
-                modalVideo.play().catch(e => console.log("Autoplay prevented:", e));
+                modalVideo.controls = true;
+                modalVideo.load();
+                
+                const playPromise = modalVideo.play();
+                
+                if (playPromise !== undefined) {
+                    playPromise.catch(e => {
+                        console.log("Autoplay prevented, showing controls");
+                        modalVideo.controls = true;
+                    });
+                }
+                
                 modalContent.style.display = 'none';
             } else {
                 modalContent.src = src;
@@ -842,6 +1036,7 @@
             
             if (modalVideo) {
                 modalVideo.pause();
+                modalVideo.removeAttribute('src');
             }
             
             modal.classList.add('fade-out');
@@ -861,7 +1056,6 @@
                 });
             }
             
-            // Cerrar menú si está abierto en móvil
             if (window.innerWidth <= 768) {
                 document.body.classList.remove('menu-open');
             }
@@ -894,9 +1088,8 @@
             }
         });
 
-        // Detectar cambios de orientación en móviles
+        // Detectar cambios de orientación
         window.addEventListener('orientationchange', function() {
-            // Forzar redimensionamiento
             setTimeout(() => {
                 window.dispatchEvent(new Event('resize'));
             }, 300);
