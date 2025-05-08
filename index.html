@@ -7,6 +7,48 @@
     <link href="https://fonts.googleapis.com/css2?family=Lobster&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <style>
+        /* [Resto del código CSS anterior se mantiene igual] */
+
+        /* CONTACTO EN MÓVIL - ELEMENTOS EN LÍNEA */
+        @media (max-width: 768px) {
+            #contact .contact-info {
+                display: flex;
+                flex-wrap: wrap;
+                justify-content: center;
+                gap: 15px;
+            }
+            
+            #contact .contact-info p {
+                margin: 0;
+                font-size: 0.9rem;
+                white-space: nowrap;
+            }
+            
+            #contact .contact-message {
+                width: 100%;
+                text-align: center;
+                margin-top: 15px;
+                font-size: 0.95rem;
+            }
+            
+            /* TESTIMONIOS EN MÓVIL */
+            .testimonial-card {
+                margin: 15px auto;
+                max-width: 90%;
+            }
+        }
+
+        /* AJUSTES PARA MÓVILES MUY PEQUEÑOS */
+        @media (max-width: 480px) {
+            #contact .contact-info p {
+                font-size: 0.8rem;
+            }
+            
+            #contact .contact-message {
+                font-size: 0.85rem;
+            }
+        }
+    <style>
         body {
             margin: 0;
             padding: 0;
@@ -710,12 +752,16 @@
             <div class="carousel-dots" id="carouselDots"></div>
         </section>
 
-        <section id="about" class="section">
-            <div class="text-section">
-                <h2>Acerca de BAREDO TOWN</h2>
-                <p>Bienvenido a BAREDO TOWN, el lugar donde las aventuras y la diversión se encuentran. Disfruta de nuestras experiencias únicas, productos y servicios en un entorno lleno de emoción. Mantente conectado y explora lo que tenemos para ofrecer.</p>
-            </div>
-        </section>
+       
+    <section id="contact" class="section">
+        <h2>Contacto</h2>
+        <div class="contact-info">
+            <p><strong>NUMERO:</strong> 621085020</p>
+            <p><strong>FAX:</strong> 900-555-123</p>
+            <p><strong>MAIL:</strong> soyguapoygay18@gmail.com</p>
+        </div>
+        <p class="contact-message">Si quieres llamarme, bebe, ¡no dudes en hacerlo! Estaré esperando tu mensaje sexy 😘</p>
+    </section>
 
         <section id="services" class="section">
             <div class="text-section">
