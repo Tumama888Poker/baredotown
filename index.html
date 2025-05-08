@@ -7,48 +7,6 @@
     <link href="https://fonts.googleapis.com/css2?family=Lobster&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <style>
-        /* [Resto del código CSS anterior se mantiene igual] */
-
-        /* CONTACTO EN MÓVIL - ELEMENTOS EN LÍNEA */
-        @media (max-width: 768px) {
-            #contact .contact-info {
-                display: flex;
-                flex-wrap: wrap;
-                justify-content: center;
-                gap: 15px;
-            }
-            
-            #contact .contact-info p {
-                margin: 0;
-                font-size: 0.9rem;
-                white-space: nowrap;
-            }
-            
-            #contact .contact-message {
-                width: 100%;
-                text-align: center;
-                margin-top: 15px;
-                font-size: 0.95rem;
-            }
-            
-            /* TESTIMONIOS EN MÓVIL */
-            .testimonial-card {
-                margin: 15px auto;
-                max-width: 90%;
-            }
-        }
-
-        /* AJUSTES PARA MÓVILES MUY PEQUEÑOS */
-        @media (max-width: 480px) {
-            #contact .contact-info p {
-                font-size: 0.8rem;
-            }
-            
-            #contact .contact-message {
-                font-size: 0.85rem;
-            }
-        }
-    <style>
         body {
             margin: 0;
             padding: 0;
@@ -59,7 +17,7 @@
             -webkit-tap-highlight-color: transparent;
         }
 
-        /* CURSOR PERSONALIZADO (MEJORADO) */
+        /* CURSOR PERSONALIZADO */
         .mouse-circle {
             position: fixed;
             width: 30px;
@@ -101,7 +59,7 @@
             background-color: rgba(0, 0, 0, 0.1);
         }
 
-        /* VÍDEOS MEJORADOS PARA IPHONE */
+        /* VÍDEOS */
         .video-container {
             position: relative;
             width: 150px;
@@ -129,11 +87,7 @@
             left: 0;
             width: 100%;
             height: 100%;
-            background: linear-gradient(
-                to bottom, 
-                transparent, 
-                rgba(0, 0, 0, 0.7)
-            );
+            background: linear-gradient(to bottom, transparent, rgba(0, 0, 0, 0.7));
             z-index: 1;
         }
 
@@ -168,81 +122,37 @@
             text-shadow: 1px 1px 2px #000;
         }
 
-        /* MODIFICACIONES PARA SECCIONES DE TEXTO EN MÓVIL */
+        /* CONTACTO EN MÓVIL */
         @media (max-width: 768px) {
-            /* Ajustes para todas las secciones de texto */
-            .text-section {
-                padding: 40px 20px;
-                scroll-margin-top: 60px;
-                text-align: right;
-                margin-left: auto;
-                max-width: 90%;
-            }
-            
-            /* Títulos */
-            .text-section h2 {
-                font-size: 2rem;
+            #contact .contact-info {
+                display: flex;
+                flex-wrap: wrap;
+                justify-content: center;
+                gap: 10px 20px;
                 margin-bottom: 15px;
-                line-height: 1.3;
-                text-align: right;
             }
             
-            /* Texto normal */
-            .text-section p {
-                font-size: 1rem;
-                line-height: 1.6;
-                text-align: right;
+            #contact .contact-info p {
+                margin: 0;
+                font-size: 0.9rem;
+                white-space: nowrap;
             }
             
-            /* Sección de Contacto */
-            #contact p {
-                margin: 15px 0;
-                font-size: 1.1rem;
-                text-align: right;
-            }
-            
-            #contact p strong {
-                display: inline;
-                margin-left: 5px;
-                color: #FFD700;
-            }
-            
-            /* Testimonios */
-            .testimonial-card {
-                padding: 15px;
-                margin: 15px 0 15px auto;
-                text-align: right;
-                max-width: 85%;
-            }
-            
-            .testimonial-card p {
-                font-style: italic;
-                font-size: 0.95rem;
-                text-align: right;
-            }
-            
-            .testimonial-card span {
-                display: block;
+            #contact .contact-message {
+                width: 100%;
+                text-align: center;
                 margin-top: 10px;
-                font-weight: bold;
-                color: #FFD700;
-                text-align: right;
+                font-size: 0.95rem;
             }
         }
 
-        /* AJUSTES EXTRA PARA MÓVILES PEQUEÑOS */
         @media (max-width: 480px) {
-            .text-section h2 {
-                font-size: 1.8rem;
+            #contact .contact-info p {
+                font-size: 0.8rem;
             }
             
-            #contact p {
-                font-size: 1rem;
-            }
-            
-            .testimonial-card {
-                padding: 12px;
-                margin: 12px 0 12px auto;
+            #contact .contact-message {
+                font-size: 0.85rem;
             }
         }
 
@@ -252,60 +162,38 @@
                 font-size: 16px;
             }
             
-            .gallery img, .video-container {
-                width: 100px;
-                height: 100px;
+            .section {
+                padding: 60px 20px;
             }
             
-            .modal-content {
-                max-width: 95%;
-                max-height: 80%;
+            .section h2 {
+                font-size: 2rem;
+                margin-bottom: 15px;
             }
             
-            .modal-nav {
-                width: 40px;
-                height: 40px;
-                font-size: 1.2rem;
-            }
-            
-            header .logo {
-                font-size: 1.5rem;
-            }
-            
-            header nav ul li a {
-                font-size: 0.9rem;
-            }
-
-            .video-title {
-                font-size: 0.7rem;
-                bottom: 5px;
-            }
-
-            .play-icon {
-                width: 35px;
-                height: 35px;
+            .section p {
                 font-size: 1rem;
+            }
+            
+            .gallery img, .video-container {
+                width: 120px;
+                height: 120px;
+            }
+            
+            .testimonial-card {
+                margin: 15px auto;
+                max-width: 90%;
             }
         }
 
         @media (max-width: 480px) {
-            header {
-                flex-direction: column;
-                padding: 10px;
-            }
-            
-            header nav ul {
-                margin-top: 10px;
-                justify-content: center;
-            }
-            
-            header nav ul li {
-                margin: 0 8px;
+            .section {
+                padding: 50px 15px;
             }
             
             .gallery img, .video-container {
-                width: 80px;
-                height: 80px;
+                width: 100px;
+                height: 100px;
             }
         }
 
@@ -418,12 +306,6 @@
             text-align: center;
         }
 
-        .text-section {
-            max-width: 800px;
-            margin: 0 auto;
-            text-align: center;
-        }
-
         .section h2 {
             font-family: 'Lobster', cursive;
             font-size: 3rem;
@@ -434,13 +316,15 @@
         .section p {
             font-size: 1.2rem;
             line-height: 1.6;
+            max-width: 800px;
+            margin: 0 auto;
         }
 
         .gallery {
             display: flex;
             flex-wrap: wrap;
             justify-content: center;
-            gap: 10px;
+            gap: 15px;
             padding: 20px;
         }
 
@@ -710,7 +594,6 @@
     </style>
 </head>
 <body>
-    <!-- CURSOR VISIBLE (AHORA FUNCIONA EN TODAS LAS PANTALLAS) -->
     <div id="mouseCircle" class="mouse-circle"></div>
 
     <div id="ageVerification" class="age-verification">
@@ -752,22 +635,14 @@
             <div class="carousel-dots" id="carouselDots"></div>
         </section>
 
-       
-    <section id="contact" class="section">
-        <h2>Contacto</h2>
-        <div class="contact-info">
-            <p><strong>NUMERO:</strong> 621085020</p>
-            <p><strong>FAX:</strong> 900-555-123</p>
-            <p><strong>MAIL:</strong> soyguapoygay18@gmail.com</p>
-        </div>
-        <p class="contact-message">Si quieres llamarme, bebe, ¡no dudes en hacerlo! Estaré esperando tu mensaje sexy 😘</p>
-    </section>
+        <section id="about" class="section">
+            <h2>Acerca de BAREDO TOWN</h2>
+            <p>Bienvenido a BAREDO TOWN, el lugar donde las aventuras y la diversión se encuentran. Disfruta de nuestras experiencias únicas, productos y servicios en un entorno lleno de emoción. Mantente conectado y explora lo que tenemos para ofrecer.</p>
+        </section>
 
         <section id="services" class="section">
-            <div class="text-section">
-                <h2>Nuestros Servicios</h2>
-                <p>En <strong>BAREDO TOWN</strong>, ofrecemos servicios de <strong>inseminación artificial</strong> de la más alta calidad. Nuestro equipo de expertos garantiza un proceso seguro, eficiente y personalizado para satisfacer tus necesidades. Confía en nosotros para hacer realidad tus sueños.</p>
-            </div>
+            <h2>Nuestros Servicios</h2>
+            <p>En <strong>BAREDO TOWN</strong>, ofrecemos servicios de <strong>inseminación artificial</strong> de la más alta calidad. Nuestro equipo de expertos garantiza un proceso seguro, eficiente y personalizado para satisfacer tus necesidades. Confía en nosotros para hacer realidad tus sueños.</p>
         </section>
 
         <section id="gallery" class="section">
@@ -806,35 +681,33 @@
         </section>
 
         <section id="testimonials" class="testimonials">
-            <div class="text-section">
-                <h2>Testimonios</h2>
-                <div class="testimonial-card">
-                    <p>"Me gusta mucho las mujeres que hay, pero sin duda me quedo con... ¡las fiestas de BAREDO TOWN!"</p>
-                    <span>- Diego Guede</span>
-                </div>
-                <div class="testimonial-card">
-                    <p>"Gran lugar para noquear y dejar ojos morados. ¡Firu lo aprueba!"</p>
-                    <span>- Firu</span>
-                </div>
-                <div class="testimonial-card">
-                    <p>"Sin duda las mejores fiestas. ¡Pentateuco siempre está presente!"</p>
-                    <span>- Pentateuco</span>
-                </div>
-                <div class="testimonial-card">
-                    <p>"Gran lugar para echarse unos puros con los colegas. ¡Karim lo recomienda!"</p>
-                    <span>- Karim</span>
-                </div>
+            <h2>Testimonios</h2>
+            <div class="testimonial-card">
+                <p>"Me gusta mucho las mujeres que hay, pero sin duda me quedo con... ¡las fiestas de BAREDO TOWN!"</p>
+                <span>- Diego Guede</span>
+            </div>
+            <div class="testimonial-card">
+                <p>"Gran lugar para noquear y dejar ojos morados. ¡Firu lo aprueba!"</p>
+                <span>- Firu</span>
+            </div>
+            <div class="testimonial-card">
+                <p>"Sin duda las mejores fiestas. ¡Pentateuco siempre está presente!"</p>
+                <span>- Pentateuco</span>
+            </div>
+            <div class="testimonial-card">
+                <p>"Gran lugar para echarse unos puros con los colegas. ¡Karim lo recomienda!"</p>
+                <span>- Karim</span>
             </div>
         </section>
 
         <section id="contact" class="section">
-            <div class="text-section">
-                <h2>Contacto</h2>
+            <h2>Contacto</h2>
+            <div class="contact-info">
                 <p><strong>NUMERO:</strong> 621085020</p>
                 <p><strong>FAX:</strong> 900-555-123</p>
                 <p><strong>MAIL:</strong> soyguapoygay18@gmail.com</p>
-                <p>Si quieres llamarme, bebe, ¡no dudes en hacerlo! Estaré esperando tu mensaje sexy 😘</p>
             </div>
+            <p class="contact-message">Si quieres llamarme, bebe, ¡no dudes en hacerlo! Estaré esperando tu mensaje sexy 😘</p>
         </section>
 
         <footer>
@@ -859,7 +732,6 @@
     </div>
 
     <script>
-        // 1. SISTEMA DEL CURSOR (INICIALIZADO AL CARGAR LA PÁGINA)
         const mouseCircle = document.getElementById('mouseCircle');
         let mouseX = window.innerWidth / 2, mouseY = window.innerHeight / 2;
         let circleX = mouseX, circleY = mouseY;
@@ -872,7 +744,6 @@
                 });
 
                 function animateCursor() {
-                    // Interpolación más rápida (0.5 en lugar de 0.2)
                     circleX = lerp(circleX, mouseX, 0.5);
                     circleY = lerp(circleY, mouseY, 0.5);
                     
@@ -885,7 +756,6 @@
                     return start * (1 - t) + end * t;
                 }
 
-                // Posicionar inicialmente el cursor
                 mouseCircle.style.left = `${mouseX}px`;
                 mouseCircle.style.top = `${mouseY}px`;
                 mouseCircle.style.display = 'block';
@@ -894,7 +764,6 @@
             }
         }
 
-        // 2. GENERACIÓN DE MINIATURAS PARA VÍDEOS (IPHONE)
         function generateVideoThumbnails() {
             const videos = document.querySelectorAll('.video-container video');
             
@@ -925,7 +794,6 @@
             });
         }
 
-        // 3. VERIFICACIÓN DE EDAD (MODIFICADA)
         function verifyAge(isAdult) {
             const ageVerification = document.getElementById('ageVerification');
             const mainContent = document.getElementById('mainContent');
@@ -944,7 +812,6 @@
             }
         }
 
-        // 4. GALERÍA Y MODAL
         let currentMediaIndex = 0;
         let currentMediaType = '';
         const photoSources = Array.from({length: 37}, (_, i) => `media/A (${i+1}).jpg`);
@@ -1035,7 +902,6 @@
             }, 500);
         }
 
-        // 5. OTRAS FUNCIONES
         function scrollToSection(sectionId) {
             const section = document.getElementById(sectionId);
             if (section) {
@@ -1050,9 +916,7 @@
             window.scrollTo({ top: 0, behavior: 'smooth' });
         }
 
-        // INICIALIZACIÓN
         document.addEventListener('DOMContentLoaded', function() {
-            // Inicializar el cursor inmediatamente
             initCursor();
             
             allMediaItems = [
@@ -1060,7 +924,6 @@
                 ...videoSources.map(src => ({type: 'video', src}))
             ];
             
-            // Swipe para móviles
             const modalContainer = document.getElementById('modalContentContainer');
             if (modalContainer) {
                 modalContainer.addEventListener('touchstart', function(e) {
@@ -1074,13 +937,11 @@
                 }, false);
             }
 
-            // Botón "volver arriba"
             window.addEventListener('scroll', () => {
                 const backToTop = document.getElementById('backToTop');
                 backToTop.style.display = window.scrollY > 300 ? 'block' : 'none';
             });
 
-            // Navegación por teclado
             document.addEventListener('keydown', (e) => {
                 const modal = document.getElementById('modal');
                 if (modal.style.display === 'flex') {
@@ -1091,7 +952,6 @@
             });
         });
 
-        // Carrusel
         let currentIndex = 0;
         const carousel = document.getElementById('carousel');
         const slides = carousel.querySelectorAll('img');
