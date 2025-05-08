@@ -15,32 +15,6 @@
             color: white;
             overflow-x: hidden;
             -webkit-tap-highlight-color: transparent;
-            cursor: none; /* Oculta el cursor predeterminado */
-        }
-
-        /* Cursor personalizado */
-        .mouse-circle {
-            position: absolute;
-            width: 30px;
-            height: 30px;
-            border: 2px solid #FFD700;
-            border-radius: 50%;
-            pointer-events: none;
-            transform: translate(-50%, -50%);
-            transition: transform 0.1s ease-out;
-            z-index: 1001;
-            display: none;
-            background-color: rgba(255, 215, 0, 0.2);
-            mix-blend-mode: difference;
-        }
-
-        @media (hover: hover) and (pointer: fine) {
-            .mouse-circle {
-                display: block;
-            }
-            body {
-                cursor: none;
-            }
         }
 
         html {
@@ -64,7 +38,6 @@
         @media (max-width: 768px) {
             body {
                 font-size: 16px;
-                cursor: default;
             }
             
             .section h2 {
@@ -130,6 +103,10 @@
             .section {
                 padding: 50px 10px !important;
             }
+        }
+
+        .mouse-circle {
+            display: none;
         }
 
         header {
@@ -597,8 +574,6 @@
     </style>
 </head>
 <body>
-    <div id="mouseCircle" class="mouse-circle"></div>
-
     <div id="ageVerification" class="age-verification">
         <video autoplay muted loop playsinline>
             <source src="media/videode.mp4" type="video/mp4">
@@ -734,11 +709,6 @@
         let touchStartX = 0;
         let touchEndX = 0;
 
-        // Sistema de seguimiento del cursor
-        const mouseCircle = document.getElementById('mouseCircle');
-        let mouseX = 0, mouseY = 0;
-        let circleX = 0, circleY = 0;
-
         // Verificación de edad
         function verifyAge(isAdult) {
             const ageVerification = document.getElementById('ageVerification');
@@ -750,11 +720,6 @@
                 mainContent.style.display = 'block';
                 document.body.style.overflow = 'auto';
                 
-                // Iniciar seguimiento del cursor si no es móvil
-                if (!isTouchDevice()) {
-                    initCursor();
-                }
-                
                 // Precargar miniaturas de videos
                 loadVideoThumbnails();
             } else {
@@ -765,32 +730,6 @@
             }
         }
 
-        // Detectar dispositivos táctiles
-        function isTouchDevice() {
-            return 'ontouchstart' in window || 
-                   navigator.maxTouchPoints > 0 || 
-                   navigator.msMaxTouchPoints > 0;
-        }
-
-        // Inicializar cursor personalizado
-        function initCursor() {
-            document.addEventListener('mousemove', (e) => {
-                mouseX = e.pageX;
-                mouseY = e.pageY;
-            });
-
-            function followMouse() {
-                const delay = 0.1;
-                circleX += (mouseX - circleX) * delay;
-                circleY += (mouseY - circleY) * delay;
-                mouseCircle.style.left = `${circleX}px`;
-                mouseCircle.style.top = `${circleY}px`;
-                requestAnimationFrame(followMouse);
-            }
-
-            followMouse();
-        }
-
         // Cargar miniaturas de videos
         function loadVideoThumbnails() {
             const videoContainers = document.querySelectorAll('.video-container');
@@ -798,6 +737,7 @@
                 const video = container.querySelector('video');
                 video.addEventListener('loadedmetadata', function() {
                     if (video.readyState >= 1) {
+                        // Intentar capturar el primer frame
                         setTimeout(() => {
                             try {
                                 const canvas = document.createElement('canvas');
@@ -813,6 +753,7 @@
                     }
                 });
                 
+                // Forzar carga de metadata
                 video.load();
             });
         }
@@ -870,7 +811,7 @@
         resetTimer();
 
         // Inicialización de la galería
-        document.addEventListener('DOMContentLoaded', function() {
+        window.addEventListener('DOMContentLoaded', function() {
             allMediaItems = [
                 ...photoSources.map(src => ({type: 'image', src})),
                 ...videoSources.map(src => ({type: 'video', src}))
@@ -921,6 +862,7 @@
                 modalVideo.controls = true;
                 modalVideo.load();
                 
+                // Intentar autoplay
                 const playPromise = modalVideo.play();
                 
                 if (playPromise !== undefined) {
