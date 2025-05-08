@@ -15,9 +15,10 @@
             color: white;
             overflow-x: hidden;
             -webkit-tap-highlight-color: transparent;
-            cursor: none;
+            cursor: none; /* Oculta el cursor predeterminado */
         }
 
+        /* Cursor personalizado */
         .mouse-circle {
             position: absolute;
             width: 30px;
@@ -28,14 +29,17 @@
             transform: translate(-50%, -50%);
             transition: transform 0.1s ease-out;
             z-index: 1001;
+            display: none;
             background-color: rgba(255, 215, 0, 0.2);
             mix-blend-mode: difference;
-            display: none;
         }
 
         @media (hover: hover) and (pointer: fine) {
             .mouse-circle {
                 display: block;
+            }
+            body {
+                cursor: none;
             }
         }
 
@@ -60,6 +64,7 @@
         @media (max-width: 768px) {
             body {
                 font-size: 16px;
+                cursor: default;
             }
             
             .section h2 {
@@ -99,17 +104,6 @@
             
             header nav ul li a {
                 font-size: 0.9rem !important;
-            }
-
-            .video-title {
-                font-size: 0.7rem !important;
-                bottom: 5px !important;
-            }
-
-            .play-icon {
-                width: 40px !important;
-                height: 40px !important;
-                font-size: 1.2rem !important;
             }
         }
 
@@ -290,30 +284,13 @@
             border-radius: 10px;
             overflow: hidden;
             cursor: pointer;
-            background: linear-gradient(45deg, #ffd700, #ff9900);
-            box-shadow: 0 4px 8px rgba(0,0,0,0.3);
-            transition: all 0.3s ease;
         }
 
         .video-container video {
             width: 100%;
             height: 100%;
             object-fit: cover;
-            transition: opacity 0.3s ease;
-            position: relative;
-            z-index: 1;
-        }
-
-        .video-container::before {
-            content: "";
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: linear-gradient(45deg, rgba(255,215,0,0.7), rgba(255,153,0,0.7));
-            z-index: 2;
-            opacity: 0.7;
+            background-color: #000;
         }
 
         .play-icon {
@@ -321,36 +298,15 @@
             top: 50%;
             left: 50%;
             transform: translate(-50%, -50%);
-            width: 50px;
-            height: 50px;
-            background-color: rgba(0,0,0,0.7);
+            width: 40px;
+            height: 40px;
+            background-color: rgba(255, 215, 0, 0.7);
             border-radius: 50%;
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 1.5rem;
-            color: #FFD700;
-            z-index: 3;
-            transition: all 0.3s ease;
-            border: 2px solid #FFD700;
-        }
-
-        .video-title {
-            position: absolute;
-            bottom: 10px;
-            left: 0;
-            width: 100%;
-            color: white;
-            font-size: 0.8rem;
-            text-align: center;
-            padding: 5px;
-            z-index: 3;
-            background: linear-gradient(to top, rgba(0,0,0,0.7), transparent);
-        }
-
-        .video-container:hover .play-icon {
-            transform: translate(-50%, -50%) scale(1.1);
-            background-color: rgba(0,0,0,0.9);
+            font-size: 1.2rem;
+            color: black;
         }
 
         .gallery img:active, .video-container:active {
@@ -705,21 +661,13 @@
             <h3>Videos</h3>
             <div class="gallery" id="videoGallery">
                 <script>
-                    const videoTitles = [
-                        "Fiesta VIP", "Noche de copas", "Afterhours", "Concierto privado",
-                        "Pool party", "DJ Session", "Celebración", "Evento especial",
-                        "Barra libre", "Champagne", "Baile", "Luz neón",
-                        "Cocteles", "Penthouse"
-                    ];
-                    
                     for (let i = 1; i <= 14; i++) {
                         document.write(`
                             <div class="video-container" onclick="openModal('media/Q (${i}).mp4', 'video', ${i-1})">
-                                <video muted playsinline preload="metadata" id="video-${i}">
+                                <video muted playsinline preload="metadata">
                                     <source src="media/Q (${i}).mp4" type="video/mp4">
                                 </video>
                                 <div class="play-icon">▶</div>
-                                <div class="video-title">${videoTitles[i-1] || `Video ${i}`}</div>
                             </div>
                         `);
                     }
@@ -807,8 +755,8 @@
                     initCursor();
                 }
                 
-                // Generar miniaturas de videos
-                generateVideoThumbnails();
+                // Precargar miniaturas de videos
+                loadVideoThumbnails();
             } else {
                 agePopup.style.display = 'flex';
                 setTimeout(() => {
@@ -843,15 +791,13 @@
             followMouse();
         }
 
-        // Generar miniaturas de videos
-        function generateVideoThumbnails() {
+        // Cargar miniaturas de videos
+        function loadVideoThumbnails() {
             const videoContainers = document.querySelectorAll('.video-container');
-            
             videoContainers.forEach(container => {
                 const video = container.querySelector('video');
-                
                 video.addEventListener('loadedmetadata', function() {
-                    if (video.readyState >= 1) { // HAVE_ENOUGH_DATA
+                    if (video.readyState >= 1) {
                         setTimeout(() => {
                             try {
                                 const canvas = document.createElement('canvas');
@@ -859,23 +805,14 @@
                                 canvas.height = video.videoHeight;
                                 const ctx = canvas.getContext('2d');
                                 ctx.drawImage(video, 0, 0, canvas.width, canvas.height);
-                                
-                                // Aplicar el frame como fondo del contenedor
-                                container.style.backgroundImage = `url(${canvas.toDataURL()})`;
-                                container.style.backgroundSize = 'cover';
-                                container.style.backgroundPosition = 'center';
-                                
-                                // Ocultar el elemento video (pero mantenerlo para el modal)
-                                video.style.opacity = '0';
+                                video.poster = canvas.toDataURL();
                             } catch (e) {
-                                console.error("Error generating thumbnail:", e);
-                                // Mantener el gradiente dorado como fallback
+                                console.log("Error generating thumbnail:", e);
                             }
-                        }, 100);
+                        }, 200);
                     }
                 });
                 
-                // Forzar la carga de metadata
                 video.load();
             });
         }
