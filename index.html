@@ -27,6 +27,7 @@
             color: var(--text-light);
             overflow-x: hidden;
             -webkit-tap-highlight-color: transparent;
+            cursor: none;
         }
 
         /* Cursor personalizado */
@@ -37,21 +38,11 @@
             border: 2px solid var(--gold);
             border-radius: 50%;
             pointer-events: none;
-            transform: translate(-50%, -50%);
             z-index: 9999;
             background-color: rgba(255, 215, 0, 0.2);
             mix-blend-mode: difference;
-            display: none;
-            transition: transform 0.05s ease-out;
-        }
-
-        @media (hover: hover) and (pointer: fine) {
-            .mouse-circle {
-                display: block;
-            }
-            body {
-                cursor: none;
-            }
+            transform: translate(-50%, -50%);
+            transition: transform 0.1s ease-out;
         }
 
         /* Scrollbar */
@@ -782,10 +773,13 @@
                 intervalTime: 5000
             },
             mouse: {
-                x: window.innerWidth / 2,
-                y: window.innerHeight / 2,
-                circleX: window.innerWidth / 2,
-                circleY: window.innerHeight / 2
+                x: 0,
+                y: 0,
+                circle: null
+            },
+            touch: {
+                startX: 0,
+                endX: 0
             }
         };
 
@@ -827,29 +821,24 @@
             setupEventListeners();
         }
 
-        // Cursor personalizado
+        // Cursor personalizado - Versión corregida
         function initCursor() {
-            if (matchMedia('(hover: hover) and (pointer: fine)').matches) {
-                document.addEventListener('mousemove', (e) => {
-                    state.mouse.x = e.clientX;
-                    state.mouse.y = e.clientY;
-                });
+            state.mouse.circle = DOM.mouseCircle;
+            
+            document.addEventListener('mousemove', (e) => {
+                state.mouse.x = e.clientX;
+                state.mouse.y = e.clientY;
+                
+                // Actualizar posición del cursor personalizado
+                state.mouse.circle.style.left = `${state.mouse.x}px`;
+                state.mouse.circle.style.top = `${state.mouse.y}px`;
+            });
 
-                function animateCursor() {
-                    state.mouse.circleX = lerp(state.mouse.circleX, state.mouse.x, 0.5);
-                    state.mouse.circleY = lerp(state.mouse.circleY, state.mouse.y, 0.5);
-                    
-                    DOM.mouseCircle.style.transform = `translate(${state.mouse.circleX}px, ${state.mouse.circleY}px)`;
-                    requestAnimationFrame(animateCursor);
-                }
-
-                DOM.mouseCircle.style.display = 'block';
-                animateCursor();
-            }
-        }
-
-        function lerp(start, end, t) {
-            return start * (1 - t) + end * t;
+            // Mostrar cursor personalizado
+            state.mouse.circle.style.display = 'block';
+            
+            // Asegurarse de que el cursor esté encima de todo
+            state.mouse.circle.style.zIndex = '9999';
         }
 
         // Carrusel
@@ -927,7 +916,12 @@
             for (let i = 1; i <= APP_DATA.videoCount; i++) {
                 const videoContainer = document.createElement('div');
                 videoContainer.className = 'video-container';
-                videoContainer.addEventListener('click', () => openModal(`media/Q (${i}).mp4`, 'video', APP_DATA.photoCount + i-1));
+                videoContainer.addEventListener('click', (e) => {
+                    // Prevenir que el evento se propague si se hace clic en elementos hijos
+                    if (e.target === videoContainer || e.target.classList.contains('play-icon')) {
+                        openModal(`media/Q (${i}).mp4`, 'video', APP_DATA.photoCount + i-1);
+                    }
+                });
                 
                 const video = document.createElement('video');
                 video.muted = true;
@@ -990,7 +984,7 @@
             video.load();
         }
 
-        // Modal
+        // Modal - Versión corregida
         function openModal(src, type, index) {
             state.currentMediaType = type;
             state.currentMediaIndex = index;
@@ -1004,10 +998,12 @@
                 DOM.modalVideo.load();
                 DOM.modalContent.style.display = 'none';
                 
+                // Forzar la reproducción del video
                 const playPromise = DOM.modalVideo.play();
                 
                 if (playPromise !== undefined) {
                     playPromise.catch(e => {
+                        console.log("Error al reproducir automáticamente, mostrando controles");
                         DOM.modalVideo.controls = true;
                     });
                 }
@@ -1015,7 +1011,10 @@
                 DOM.modalContent.src = src;
                 DOM.modalContent.style.display = 'block';
                 DOM.modalVideo.style.display = 'none';
-                DOM.modalVideo.pause();
+                if (DOM.modalVideo) {
+                    DOM.modalVideo.pause();
+                    DOM.modalVideo.currentTime = 0;
+                }
             }
 
             DOM.modal.classList.add('active');
@@ -1042,6 +1041,7 @@
             
             if (DOM.modalVideo) {
                 DOM.modalVideo.pause();
+                DOM.modalVideo.currentTime = 0;
                 DOM.modalVideo.removeAttribute('src');
             }
             
@@ -1113,19 +1113,15 @@
 
             // Navegación táctil en el modal
             DOM.modalContentContainer.addEventListener('touchstart', (e) => {
-                touchStartX = e.changedTouches[0].screenX;
+                state.touch.startX = e.changedTouches[0].screenX;
             }, false);
 
             DOM.modalContentContainer.addEventListener('touchend', (e) => {
-                touchEndX = e.changedTouches[0].screenX;
-                if (touchStartX - touchEndX > 50) navigateMedia(1);
-                else if (touchEndX - touchStartX > 50) navigateMedia(-1);
+                state.touch.endX = e.changedTouches[0].screenX;
+                if (state.touch.startX - state.touch.endX > 50) navigateMedia(1);
+                else if (state.touch.endX - state.touch.startX > 50) navigateMedia(-1);
             }, false);
         }
-
-        // Variables para navegación táctil
-        let touchStartX = 0;
-        let touchEndX = 0;
     </script>
 </body>
 </html>
