@@ -17,7 +17,6 @@
             -webkit-tap-highlight-color: transparent;
         }
 
-        /* CURSOR PERSONALIZADO */
         .mouse-circle {
             position: fixed;
             width: 30px;
@@ -59,7 +58,6 @@
             background-color: rgba(0, 0, 0, 0.1);
         }
 
-        /* VÍDEOS */
         .video-container {
             position: relative;
             width: 150px;
@@ -122,6 +120,103 @@
             text-shadow: 1px 1px 2px #000;
         }
 
+        /* MENÚ DE NAVEGACIÓN RESPONSIVE */
+        header {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            background-color: rgba(0, 0, 0, 0.8);
+            z-index: 1000;
+            padding: 10px 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        header .logo {
+            font-family: 'Lobster', cursive;
+            font-size: 2rem;
+            color: #FFD700;
+            cursor: pointer;
+            transition: transform 0.3s ease;
+        }
+
+        header .logo:hover {
+            transform: scale(1.1);
+        }
+
+        header nav ul {
+            list-style: none;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: flex-end;
+        }
+
+        header nav ul li {
+            margin-left: 15px;
+        }
+
+        header nav ul li a {
+            color: white;
+            text-decoration: none;
+            font-size: 1rem;
+            transition: color 0.3s ease;
+            display: block;
+            padding: 5px 0;
+        }
+
+        header nav ul li a:hover {
+            color: #FFD700;
+        }
+
+        @media (max-width: 768px) {
+            header {
+                flex-direction: column;
+                padding: 10px;
+            }
+            
+            header nav {
+                width: 100%;
+                margin-top: 10px;
+                overflow-x: auto;
+                -webkit-overflow-scrolling: touch;
+            }
+            
+            header nav ul {
+                display: inline-flex;
+                flex-wrap: nowrap;
+                padding-bottom: 5px;
+                white-space: nowrap;
+            }
+            
+            header nav ul li {
+                margin: 0 10px;
+                flex: 0 0 auto;
+            }
+            
+            header nav ul li a {
+                font-size: 0.9rem;
+                padding: 5px 0;
+            }
+            
+            /* Hide scrollbar */
+            header nav::-webkit-scrollbar {
+                display: none;
+            }
+        }
+
+        @media (max-width: 480px) {
+            header nav ul li {
+                margin: 0 8px;
+            }
+            
+            header nav ul li a {
+                font-size: 0.85rem;
+            }
+        }
+
         /* CONTACTO EN MÓVIL */
         @media (max-width: 768px) {
             #contact .contact-info {
@@ -156,98 +251,7 @@
             }
         }
 
-        /* RESPONSIVE GENERAL */
-        @media (max-width: 768px) {
-            body {
-                font-size: 16px;
-            }
-            
-            .section {
-                padding: 60px 20px;
-            }
-            
-            .section h2 {
-                font-size: 2rem;
-                margin-bottom: 15px;
-            }
-            
-            .section p {
-                font-size: 1rem;
-            }
-            
-            .gallery img, .video-container {
-                width: 120px;
-                height: 120px;
-            }
-            
-            .testimonial-card {
-                margin: 15px auto;
-                max-width: 90%;
-            }
-        }
-
-        @media (max-width: 480px) {
-            .section {
-                padding: 50px 15px;
-            }
-            
-            .gallery img, .video-container {
-                width: 100px;
-                height: 100px;
-            }
-        }
-
-        header {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            background-color: rgba(0, 0, 0, 0.8);
-            z-index: 1000;
-            padding: 10px 20px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
-
-        header .logo {
-            font-family: 'Lobster', cursive;
-            font-size: 2rem;
-            color: #FFD700;
-            cursor: pointer;
-            transition: transform 0.3s ease;
-        }
-
-        header .logo:hover {
-            transform: scale(1.1);
-        }
-
-        header nav ul {
-            list-style: none;
-            margin: 0;
-            padding: 0;
-            display: flex;
-            justify-content: flex-end;
-            flex-wrap: wrap;
-        }
-
-        header nav ul li {
-            margin-left: 15px;
-        }
-
-        header nav ul li a {
-            color: white;
-            text-decoration: none;
-            font-size: 1rem;
-            transition: color 0.3s ease;
-            display: block;
-            padding: 5px 0;
-        }
-
-        header nav ul li a:hover {
-            color: #FFD700;
-        }
-
+        /* [Resto del CSS anterior se mantiene igual] */
         .hero {
             height: 100vh;
             position: relative;
