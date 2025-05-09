@@ -449,9 +449,14 @@
             border-radius: 50px;
             color: black;
             cursor: pointer;
-            transition: background 0.3s ease;
+            transition: all 0.3s ease;
             margin: 10px;
             width: 120px;
+        }
+
+        .age-verification button:hover {
+            transform: scale(1.05);
+            box-shadow: 0 0 15px rgba(255, 215, 0, 0.5);
         }
 
         .age-popup {
@@ -467,11 +472,13 @@
             z-index: 1001;
             padding: 20px;
             text-align: center;
+            animation: shake 0.5s ease-in-out;
         }
 
         .age-popup h2 {
             font-size: 2rem;
             color: #FFD700;
+            animation: pulse 1.5s infinite;
         }
 
         .back-to-top {
@@ -594,6 +601,18 @@
                 transform: scale(1);
                 opacity: 1;
             }
+        }
+
+        @keyframes shake {
+            0%, 100% { transform: translateX(0); }
+            10%, 30%, 50%, 70%, 90% { transform: translateX(-10px); }
+            20%, 40%, 60%, 80% { transform: translateX(10px); }
+        }
+
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.1); }
+            100% { transform: scale(1); }
         }
     </style>
 </head>
@@ -772,19 +791,19 @@
             setupEventListeners();
         }
 
-        // Cursor personalizado - Versión corregida
+        // Cursor personalizado - Versión corregida para funcionar en todas las pantallas
         function initCursor() {
+            // Mostrar cursor personalizado
+            DOM.mouseCircle.style.display = 'block';
+            
+            // Actualizar posición del cursor en toda la página
             document.addEventListener('mousemove', (e) => {
                 state.mouse.x = e.clientX;
                 state.mouse.y = e.clientY;
                 
-                // Actualizar posición del cursor personalizado
                 DOM.mouseCircle.style.left = `${state.mouse.x}px`;
                 DOM.mouseCircle.style.top = `${state.mouse.y}px`;
             });
-
-            // Mostrar cursor personalizado
-            DOM.mouseCircle.style.display = 'block';
         }
 
         // Carrusel
@@ -988,17 +1007,28 @@
             document.body.style.overflow = 'auto';
         }
 
-        // Verificación de edad
+        // Verificación de edad con animaciones
         function verifyAge(isAdult) {
             if (isAdult) {
-                DOM.ageVerification.style.display = 'none';
-                DOM.mainContent.style.display = 'block';
-                document.body.style.overflow = 'auto';
-                initApp();
-            } else {
-                DOM.agePopup.style.display = 'flex';
+                // Animación de desvanecimiento al aceptar
+                DOM.ageVerification.style.animation = 'fadeOut 0.5s ease-out';
                 setTimeout(() => {
-                    DOM.agePopup.style.display = 'none';
+                    DOM.ageVerification.style.display = 'none';
+                    DOM.mainContent.style.display = 'block';
+                    document.body.style.overflow = 'auto';
+                    initApp();
+                }, 500);
+            } else {
+                // Mostrar popup con animación
+                DOM.agePopup.style.display = 'flex';
+                
+                // Ocultar después de 3 segundos con animación
+                setTimeout(() => {
+                    DOM.agePopup.style.animation = 'fadeOut 0.5s ease-out';
+                    setTimeout(() => {
+                        DOM.agePopup.style.display = 'none';
+                        DOM.agePopup.style.animation = 'shake 0.5s ease-in-out';
+                    }, 500);
                 }, 3000);
             }
         }
@@ -1062,10 +1092,8 @@
             }, false);
         }
 
-        // Inicialización cuando el DOM esté listo
-        document.addEventListener('DOMContentLoaded', function() {
-            // No inicializar el cursor aquí, se hará después de la verificación de edad
-        });
+        // Inicializar el cursor inmediatamente para que funcione en la pantalla de verificación
+        initCursor();
     </script>
 </body>
 </html>
