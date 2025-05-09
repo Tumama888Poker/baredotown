@@ -1148,49 +1148,63 @@
         }
 
         // Event listeners
-        function setupEventListeners() {
-            // Navegación suave para enlaces
-            document.querySelectorAll('nav a').forEach(link => {
-                link.addEventListener('click', (e) => {
-                    e.preventDefault();
-                    const sectionId = link.getAttribute('href');
-                    scrollToSection(sectionId);
-                });
-            });
-
-            // Botón volver arriba
-            window.addEventListener('scroll', () => {
-                DOM.backToTop.style.display = window.scrollY > 300 ? 'block' : 'none';
-            });
-
-            // Navegación del modal con teclado
-            document.addEventListener('keydown', (e) => {
-                if (DOM.modal.style.display === 'flex') {
-                    if (e.key === 'Escape') closeModal();
-                    if (e.key === 'ArrowLeft') navigateMedia(-1);
-                    if (e.key === 'ArrowRight') navigateMedia(1);
+  // Event listeners - VERSIÓN CORREGIDA (funciona en móviles)
+function setupEventListeners() {
+    // Navegación suave para enlaces - Versión mejorada
+    document.querySelectorAll('nav a').forEach(link => {
+        link.addEventListener('click', (e) => {
+            e.preventDefault();
+            const sectionId = link.getAttribute('href').substring(1); // Elimina el #
+            const section = document.getElementById(sectionId);
+            
+            if (section) {
+                // Ajuste especial para móviles
+                if (window.innerWidth <= 768) {
+                    const headerHeight = document.querySelector('header').offsetHeight;
+                    const sectionPosition = section.offsetTop - headerHeight;
+                    
+                    window.scrollTo({
+                        top: sectionPosition,
+                        behavior: 'smooth'
+                    });
+                } else {
+                    // Para desktop
+                    section.scrollIntoView({
+                        behavior: 'smooth',
+                        block: 'start'
+                    });
                 }
-            });
+            }
+        });
+    });
 
-            // Navegación del modal con botones
-            DOM.prevBtn.addEventListener('click', () => navigateMedia(-1));
-            DOM.nextBtn.addEventListener('click', () => navigateMedia(1));
+    // Resto de listeners se mantienen igual
+    window.addEventListener('scroll', () => {
+        DOM.backToTop.style.display = window.scrollY > 300 ? 'block' : 'none';
+    });
 
-            // Cerrar modal
-            DOM.closeModal.addEventListener('click', closeModal);
-
-            // Navegación táctil en el modal
-            DOM.modalContentContainer.addEventListener('touchstart', (e) => {
-                state.touch.startX = e.changedTouches[0].screenX;
-            }, false);
-
-            DOM.modalContentContainer.addEventListener('touchend', (e) => {
-                state.touch.endX = e.changedTouches[0].screenX;
-                if (state.touch.startX - state.touch.endX > 50) navigateMedia(1);
-                else if (state.touch.endX - state.touch.startX > 50) navigateMedia(-1);
-            }, false);
+    document.addEventListener('keydown', (e) => {
+        if (DOM.modal.style.display === 'flex') {
+            if (e.key === 'Escape') closeModal();
+            if (e.key === 'ArrowLeft') navigateMedia(-1);
+            if (e.key === 'ArrowRight') navigateMedia(1);
         }
+    });
 
+    DOM.prevBtn.addEventListener('click', () => navigateMedia(-1));
+    DOM.nextBtn.addEventListener('click', () => navigateMedia(1));
+    DOM.closeModal.addEventListener('click', closeModal);
+
+    DOM.modalContentContainer.addEventListener('touchstart', (e) => {
+        state.touch.startX = e.changedTouches[0].screenX;
+    }, false);
+
+    DOM.modalContentContainer.addEventListener('touchend', (e) => {
+        state.touch.endX = e.changedTouches[0].screenX;
+        if (state.touch.startX - state.touch.endX > 50) navigateMedia(1);
+        else if (state.touch.endX - state.touch.startX > 50) navigateMedia(-1);
+    }, false);
+}
         // Inicializar el cursor inmediatamente para que funcione en la pantalla de verificación
         initCursor();
     </script>
