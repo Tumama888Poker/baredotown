@@ -292,9 +292,12 @@
         /* [Resto del CSS anterior se mantiene igual] */
         .hero {
             height: 100vh;
-            position: relative;
-            overflow: hidden;
-            margin-top: 60px;
+            height: 100dvh; /* Usa la altura dinámica del viewport */
+    min-height: -webkit-fill-available; /* Para Safari */
+    position: relative;
+    overflow: hidden;
+    margin-top: 60px;
+}
         }
 
         .carousel {
