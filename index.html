@@ -666,10 +666,10 @@
                         "Iago algo que decir?", "Firu vs PET", "Afterhours", "Concierto privado",
                         "Noches de baredo...", "Purito", "Coma etílico", "Special Event",
                         "Barra libre", "Noche estrellada", "Las avispas asesinas", "Luces de neón",
-                        "Cocteles", "Penthouse"
+                        "Cocteles", "Vigogay🦶", "Penthouse"
                     ];
                     
-                    for (let i = 1; i <= 14; i++) {
+                    for (let i = 1; i <= 15; i++) {
                         document.write(`
                             <div class="video-container" onclick="openModal('media/Q (${i}).mp4', 'video', ${i-1})">
                                 <video muted playsinline preload="metadata" id="video-${i}">
@@ -819,7 +819,7 @@
         let currentMediaIndex = 0;
         let currentMediaType = '';
         const photoSources = Array.from({length: 37}, (_, i) => `media/A (${i+1}).jpg`);
-        const videoSources = Array.from({length: 14}, (_, i) => `media/Q (${i+1}).mp4`);
+        const videoSources = Array.from({length: 15}, (_, i) => `media/Q (${i+1}).mp4`);
         let allMediaItems = [];
         let touchStartX = 0;
         let touchEndX = 0;
