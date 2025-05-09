@@ -661,26 +661,26 @@
             </div>
             <h3>Videos</h3>
             <div class="gallery" id="videoGallery">
-                <script>
-                    const videoTitles = [
-                        "Iago algo que decir?", "Firu vs PET", "Afterhours", "Concierto privado",
-                        "Noches de baredo...", "Purito", "Coma etílico", "Special Event",
-                        "Barra libre", "Noche estrellada", "Las avispas asesinas", "Luces de neón",
-                        "Cocteles", "Penthouse", "Vigogay🦶"
-                    ];
-                    
-                    for (let i = 1; i <= 15; i++) {
-                        document.write(`
-                            <div class="video-container" onclick="openModal('media/Q (${i}).mp4', 'video', ${i-1})">
-                                <video muted playsinline preload="metadata" id="video-${i}">
-                                    <source src="media/Q (${i}).mp4" type="video/mp4">
-                                </video>
-                                <div class="play-icon">▶</div>
-                                <div class="video-title">${videoTitles[i-1] || `Video ${i}`}</div>
-                            </div>
-                        `);
-                    }
-                </script>
+               <script>
+    const videoTitles = [
+        "Iago algo que decir?", "Firu vs PET", "Afterhours", "Concierto privado",
+        "Noches de baredo...", "Purito", "Coma etílico", "Special Event",
+        "Barra libre", "Noche estrellada", "Las avispas asesinas", "Luces de neón",
+        "Cocteles", "Vigogay🦶", "Penthouse"  // Vigogay ahora es Q (14).mp4 y Penthouse Q (15).mp4
+    ];
+    
+    for (let i = 1; i <= 15; i++) {
+        document.write(`
+            <div class="video-container" onclick="openModal('media/Q (${i}).mp4', 'video', ${i-1})">
+                <video muted playsinline preload="metadata" id="video-${i}">
+                    <source src="media/Q (${i}).mp4" type="video/mp4">
+                </video>
+                <div class="play-icon">▶</div>
+                <div class="video-title">${videoTitles[i-1] || `Video ${i}`}</div>
+            </div>
+        `);
+    }
+</script>
             </div>
         </section>
 
