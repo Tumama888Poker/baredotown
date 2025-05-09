@@ -292,12 +292,9 @@
         /* [Resto del CSS anterior se mantiene igual] */
         .hero {
             height: 100vh;
-            height: 100dvh; /* Usa la altura dinámica del viewport */
-    min-height: -webkit-fill-available; /* Para Safari */
-    position: relative;
-    overflow: hidden;
-    margin-top: 60px;
-}
+            position: relative;
+            overflow: hidden;
+            margin-top: 60px;
         }
 
         .carousel {
@@ -1150,8 +1147,7 @@
             window.scrollTo({ top: 0, behavior: 'smooth' });
         }
 
-        // Event listeners
-  // Event listeners - VERSIÓN CORREGIDA (funciona en móviles)
+// Event listeners - VERSIÓN CORREGIDA (funciona en móviles)
 function setupEventListeners() {
     // Navegación suave para enlaces - Versión mejorada
     document.querySelectorAll('nav a').forEach(link => {
@@ -1208,6 +1204,7 @@ function setupEventListeners() {
         else if (state.touch.endX - state.touch.startX > 50) navigateMedia(-1);
     }, false);
 }
+
         // Inicializar el cursor inmediatamente para que funcione en la pantalla de verificación
         initCursor();
     </script>
