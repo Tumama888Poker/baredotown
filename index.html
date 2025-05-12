@@ -77,6 +77,7 @@
             background: linear-gradient(45deg, #1a1a1a, #000);
             box-shadow: 0 4px 15px rgba(255, 215, 0, 0.3);
             transition: all 0.3s ease;
+            flex: 0 0 auto;
         }
 
         .video-container video {
@@ -368,10 +369,17 @@
 
         .gallery {
             display: flex;
-            flex-wrap: wrap;
-            justify-content: center;
+            flex-wrap: nowrap;
+            justify-content: flex-start;
             gap: 15px;
             padding: 20px;
+            overflow-x: auto;
+            -webkit-overflow-scrolling: touch;
+            scrollbar-width: none;
+        }
+
+        .gallery::-webkit-scrollbar {
+            display: none;
         }
 
         .gallery img {
@@ -381,11 +389,20 @@
             border-radius: 10px;
             transition: all 0.3s ease;
             cursor: pointer;
+            flex: 0 0 auto;
         }
 
         .gallery img:hover, .video-container:hover {
             transform: scale(1.05);
             box-shadow: 0 0 20px rgba(255, 215, 0, 0.4);
+        }
+
+        @media (min-width: 768px) {
+            .gallery {
+                flex-wrap: wrap;
+                justify-content: center;
+                overflow-x: visible;
+            }
         }
 
         .modal {
@@ -747,7 +764,24 @@
         </section>
 
         <section id="services" class="section">
-           
+            <h2>Lo que ofrecemos</h2>
+            <div style="max-width: 600px; margin: 0 auto; text-align: center;">
+                <p>En BAREDO TOWN sabemos lo que te gusta... y tenemos justo lo que necesitas 😉</p>
+                
+                <div style="margin-top: 30px; background: rgba(255,215,0,0.1); padding: 20px; border-radius: 10px; border: 1px dashed #FFD700;">
+                    <h3 style="color: #FFD700; margin-bottom: 15px;">Servicios Premium</h3>
+                    <ul style="text-align: left; list-style-type: none; padding: 0;">
+                        <li style="margin-bottom: 10px;">🍸 <strong>"Cocteles especiales"</strong> - Te dejarán sin palabras (y quizás sin memoria)</li>
+                        <li style="margin-bottom: 10px;">🛋️ <strong>"Sofá terapéutico"</strong> - Para esas charlas íntimas... muy íntimas</li>
+                        <li style="margin-bottom: 10px;">🎵 <strong>"Música ambiental"</strong> - El volumen perfecto para que nadie escuche tus... conversaciones</li>
+                        <li style="margin-bottom: 10px;">🔞 <strong>"Zona VIP"</strong> - Donde lo que pasa... mejor no contarlo</li>
+                    </ul>
+                </div>
+                
+                <p style="margin-top: 20px; font-style: italic;">* Todos nuestros servicios incluyen sonrisas garantizadas y secretos bien guardados</p>
+            </div>
+        </section>
+
         <section id="gallery" class="section">
             <h2>Galería</h2>
             <h3>Fotos</h3>
@@ -775,7 +809,7 @@
                 <span>- Pentateuco (el rompecorazones)</span>
             </div>
             <div class="testimonial-card">
-                <p>"Los puros de aquí tienen un sabor especial... ¡Karim lo recomienda!"</p>
+                <p>"Los puros de aquí tienen un sabor especial... ¡Karim certifica!"</p>
                 <span>- Karim </span>
             </div>
         </section>
