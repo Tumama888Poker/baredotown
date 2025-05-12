@@ -29,6 +29,7 @@
             background-color: rgba(255, 215, 0, 0.2);
             mix-blend-mode: difference;
             transition: transform 0.1s ease-out;
+            display: none;
         }
 
         @media (hover: hover) and (pointer: fine) {
@@ -366,16 +367,16 @@
             display: flex;
             flex-wrap: wrap;
             justify-content: center;
-            gap: 15px;
+            gap: 20px;
             padding: 20px;
         }
 
         @media (max-width: 768px) {
             .gallery {
                 display: grid;
-                grid-template-columns: repeat(3, 1fr);
-                gap: 10px;
-                padding: 10px;
+                grid-template-columns: repeat(2, 1fr);
+                gap: 15px;
+                padding: 15px;
             }
             
             .gallery img, .video-container {
@@ -771,7 +772,7 @@
         <section id="testimonials" class="testimonials">
             <h2>Testimonios</h2>
             <div class="testimonial-card">
-                <p>"Muchas mujeres se me acercan a mi, pero yo las rechazo, pq soy muy guapo."</p>
+                <p>"Muchas mujeres se me acercan a mi, pero yo las rechazo, es que soy muy guapo."</p>
                 <span>- Diego Guede</span>
             </div>
             <div class="testimonial-card">
@@ -885,19 +886,22 @@
 
         // Cursor personalizado - Oculto en móviles
         function initCursor() {
-            // Mostrar el cursor personalizado en todos los dispositivos
-            DOM.mouseCircle.style.display = 'block';
-            
-            document.addEventListener('mousemove', (e) => {
-                state.mouse.x = e.clientX;
-                state.mouse.y = e.clientY;
+            // Solo activar en dispositivos con puntero fino (no móviles)
+            if (matchMedia('(hover: hover) and (pointer: fine)').matches) {
+                DOM.mouseCircle.style.display = 'block';
+                document.body.style.cursor = 'none';
                 
-                DOM.mouseCircle.style.left = `${state.mouse.x}px`;
-                DOM.mouseCircle.style.top = `${state.mouse.y}px`;
-            });
-            
-            // Ocultar el cursor del sistema
-            document.body.style.cursor = 'none';
+                document.addEventListener('mousemove', (e) => {
+                    state.mouse.x = e.clientX;
+                    state.mouse.y = e.clientY;
+                    
+                    DOM.mouseCircle.style.left = `${state.mouse.x}px`;
+                    DOM.mouseCircle.style.top = `${state.mouse.y}px`;
+                });
+            } else {
+                DOM.mouseCircle.style.display = 'none';
+                document.body.style.cursor = 'default';
+            }
         }
 
         // Carrusel
