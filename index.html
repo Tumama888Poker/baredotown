@@ -367,44 +367,30 @@
             margin: 0 auto;
         }
 
-        .gallery {
-            display: flex;
-            flex-wrap: nowrap;
-            justify-content: flex-start;
-            gap: 15px;
-            padding: 20px;
-            overflow-x: auto;
-            -webkit-overflow-scrolling: touch;
-            scrollbar-width: none;
-        }
+      .gallery {
+    display: flex;
+    flex-wrap: wrap; /* Esto permite el flujo en cuadrícula */
+    justify-content: center; /* Centra los elementos */
+    gap: 15px;
+    padding: 20px;
+    /* Eliminamos las propiedades de scroll horizontal */
+    overflow-x: visible;
+    -webkit-overflow-scrolling: auto;
+}
 
-        .gallery::-webkit-scrollbar {
-            display: none;
-        }
+/* Restauramos el diseño responsivo original */
+.gallery img, .video-container {
+    width: calc(50% - 20px); /* 2 columnas en móviles con espacio entre ellas */
+    height: auto;
+    aspect-ratio: 1/1; /* Mantenemos relación cuadrada */
+}
 
-        .gallery img {
-            width: 150px;
-            height: 150px;
-            object-fit: cover;
-            border-radius: 10px;
-            transition: all 0.3s ease;
-            cursor: pointer;
-            flex: 0 0 auto;
-        }
-
-        .gallery img:hover, .video-container:hover {
-            transform: scale(1.05);
-            box-shadow: 0 0 20px rgba(255, 215, 0, 0.4);
-        }
-
-        @media (min-width: 768px) {
-            .gallery {
-                flex-wrap: wrap;
-                justify-content: center;
-                overflow-x: visible;
-            }
-        }
-
+@media (min-width: 768px) {
+    .gallery img, .video-container {
+        width: 150px; /* Tamaño fijo en desktop */
+        height: 150px;
+    }
+}
         .modal {
             display: none;
             position: fixed;
